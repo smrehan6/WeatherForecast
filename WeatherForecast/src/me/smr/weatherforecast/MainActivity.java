@@ -16,7 +16,7 @@ public class MainActivity extends ActionBarActivity {
 			// called only if the cities array is empty
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new AddCityFragment()).commit();
-			// TODO else show city data
+			// TODO else show city(s) forecast data
 		}
 	}
 
