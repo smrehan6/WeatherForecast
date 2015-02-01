@@ -2,11 +2,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".AddCityFragment" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <AutoCompleteTextView
+        android:id="@+id/etCity"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:hint="@string/hint_name"
+        android:imeOptions="actionSearch|actionGo"
+        android:singleLine="true" />
+
+    <ListView
+        android:id="@+id/lvCities"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/etCity"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>
