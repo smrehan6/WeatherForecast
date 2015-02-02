@@ -4,6 +4,13 @@
     <string name="app_name">WeatherForecast</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Add city fragment -->
+    <string name="add_city">Add City</string>
     <string name="hint_name">Enter city name</string>
+
+    <!-- for error messages -->
+    <string name="invalid_resp">Invalid response from server</string>
+    <string name="connection_error">Unable to reach server.\nPlease check your internet connection and try again.</string>
 
 </resources>
