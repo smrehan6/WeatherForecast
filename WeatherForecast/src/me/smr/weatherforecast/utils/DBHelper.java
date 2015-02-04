@@ -5,6 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
+/**
+ * This Singleton class will be used for all the database operations.
+ * <p>
+ * <b>Usage:</b> {@code DBHelper.getInstance()}
+ * */
 public class DBHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "forecast.db";
@@ -19,7 +24,16 @@ public class DBHelper extends SQLiteOpenHelper {
 		public static final String COL_LON = "longtitude";
 	}
 
-	public DBHelper() {
+	private static DBHelper instance = null;
+
+	public static DBHelper getInstance() {
+		if (instance == null) {
+			instance = new DBHelper();
+		}
+		return instance;
+	}
+
+	private DBHelper() {
 		super(App.getContext(), DATABASE_NAME, null, DB_VERSION);
 	}
 
