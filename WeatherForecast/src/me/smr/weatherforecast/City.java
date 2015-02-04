@@ -5,12 +5,16 @@ package me.smr.weatherforecast;
  * */
 public class City {
 
-	private long cityId;
+	private int cityId;
 	private String cityName;
 	private String countryCode;
 	private double latitude, longtitude;
 
-	public City(long cityId, String cityName, String countryCode,
+	public City() {
+		super();
+	}
+
+	public City(int cityId, String cityName, String countryCode,
 			double lantitude, double longtitude) {
 		super();
 		this.cityId = cityId;
@@ -20,11 +24,11 @@ public class City {
 		this.longtitude = longtitude;
 	}
 
-	public long getCityId() {
+	public int getCityId() {
 		return cityId;
 	}
 
-	public void setCityId(long cityId) {
+	public void setCityId(int cityId) {
 		this.cityId = cityId;
 	}
 
