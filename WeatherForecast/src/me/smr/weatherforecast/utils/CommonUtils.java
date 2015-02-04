@@ -1,10 +1,14 @@
 package me.smr.weatherforecast.utils;
 
 import me.smr.weatherforecast.App;
+import me.smr.weatherforecast.R;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -72,8 +76,14 @@ public final class CommonUtils {
 	 *            The message String to be displayed.
 	 * */
 	public static void showToast(String msg) {
-		// TODO custom Toast implementation.
-		Toast.makeText(App.getContext(), msg, Toast.LENGTH_LONG).show();
+		View v = View.inflate(App.getContext(), R.layout.custom_toast, null);
+		TextView tv = (TextView) v.findViewById(R.id.txtMsg);
+		tv.setText(msg);
+		Toast toast = new Toast(App.getContext());
+		toast.setView(v);
+		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
 	}
 
 	/**
