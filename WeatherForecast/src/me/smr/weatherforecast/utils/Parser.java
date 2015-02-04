@@ -21,7 +21,7 @@ public final class Parser {
 		JSONArray arr = result.getJSONArray("list");
 		for (int i = 0; i < arr.length(); i++) {
 			JSONObject ob = arr.getJSONObject(i);
-			long id = ob.getLong("id");
+			int id = ob.getInt("id");
 			String name = ob.getString("name");
 			String countryCode = ob.getJSONObject("sys").getString("country");
 			double latitude = ob.getJSONObject("coord").getDouble("lat");
