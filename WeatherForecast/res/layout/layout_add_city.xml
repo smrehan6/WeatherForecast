@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_name"
         android:imeOptions="actionSearch|actionGo"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textColor="#000" />
 
     <ListView
         android:id="@+id/lvCities"

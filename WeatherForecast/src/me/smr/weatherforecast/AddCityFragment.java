@@ -19,6 +19,9 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
@@ -50,7 +53,7 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_main, container, false);
+		View v = inflater.inflate(R.layout.layout_add_city, container, false);
 		etCity = (AutoCompleteTextView) v.findViewById(R.id.etCity);
 		listView = (ListView) v.findViewById(R.id.lvCities);
 		getActivity().setTitle(R.string.add_city);
@@ -62,7 +65,31 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 		Log.v("Cities", savedCities.toString());
 		adapter = new SavedCityAdapter();
 		listView.setAdapter(adapter);
+		setHasOptionsMenu(true);
 		return v;
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.add, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_done:
+			if (DBHelper.getInstance().getCityCount() == 0) {
+				CommonUtils.showToast("Please add at least one city");
+			} else {
+				getActivity().getSupportFragmentManager().beginTransaction()
+						.replace(R.id.container, new WeatherFragment())
+						.commit();
+			}
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -85,7 +112,7 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 	 * city name.
 	 * */
 	private void searchCity(String cityName) {
-		new CallService(getActivity(), this, RequestType.SEARCH_CITY)
+		new CallService(getActivity(), this, RequestType.SEARCH_CITY, true)
 				.execute(String.format(CommonUtils.SEARCH_CITY, cityName));
 	}
 
@@ -109,8 +136,16 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 				showToast(R.string.invalid_resp);
 			}
 			break;
+
+		default:
+			break;
 		}
 
+	}
+
+	@Override
+	public void onError(RequestType type) {
+		// nothing
 	}
 
 	@Override
@@ -155,12 +190,13 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 			if (v == null) {
 				// TODO set custom layout with delete. maybe reorder
 				v = LayoutInflater.from(getActivity()).inflate(
-						android.R.layout.simple_list_item_1, parent, false);
+						R.layout.city_dropdown_item, parent, false);
 			}
-			TextView tv = (TextView) v.findViewById(android.R.id.text1);
+			TextView tv = (TextView) v.findViewById(R.id.txtCityName);
 			tv.setText(savedCities.get(position).toString());
 			return v;
 		}
 
 	}
+
 }

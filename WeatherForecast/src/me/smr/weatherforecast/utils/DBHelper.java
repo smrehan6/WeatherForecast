@@ -134,4 +134,33 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.close();
 		return result;
 	}
+
+	/**
+	 * @return {@code String} of all stored ids saperated by comma. <br/>
+	 *         Eg. : 524901,703448,2643743
+	 * */
+	public String getAllCityIDs() {
+		StringBuilder sb = new StringBuilder();
+		for (City city : getAllCities()) {
+			if (sb.length() == 0) {
+				sb.append(city.getCityId());
+			} else {
+				sb.append("," + city.getCityId());
+			}
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * @return the number of {@code City}s stored.
+	 * */
+	public int getCityCount() {
+		final SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(CityTable.TABLE_NAME, null, null, null, null,
+				null, null);
+		int result = cursor.getCount();
+		db.close();
+		cursor.close();
+		return result;
+	}
 }

@@ -42,10 +42,10 @@ public class CitySearchAdapter extends ArrayAdapter<City> {
 	@Override
 	public View getView(int position, View v, ViewGroup parent) {
 		if (v == null) {
-			v = LayoutInflater.from(ctx).inflate(
-					android.R.layout.simple_dropdown_item_1line, parent, false);
+			v = LayoutInflater.from(ctx).inflate(R.layout.city_dropdown_item,
+					parent, false);
 		}
-		TextView txt = (TextView) v.findViewById(android.R.id.text1);
+		TextView txt = (TextView) v.findViewById(R.id.txtCityName);
 		txt.setText(data.get(position).toString());
 		return v;
 	}
