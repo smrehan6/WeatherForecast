@@ -7,5 +7,13 @@ public enum RequestType {
 	/**
 	 * search city request
 	 */
-	REQ_SEARCH_CITY
+	SEARCH_CITY,
+	/**
+	 * get current weather data
+	 * */
+	CURRENT,
+	/**
+	 * get forecast
+	 * */
+	GET_FORECAST
 }

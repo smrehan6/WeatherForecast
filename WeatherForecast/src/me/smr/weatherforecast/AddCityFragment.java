@@ -85,14 +85,14 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 	 * city name.
 	 * */
 	private void searchCity(String cityName) {
-		new CallService(getActivity(), this, RequestType.REQ_SEARCH_CITY)
+		new CallService(getActivity(), this, RequestType.SEARCH_CITY)
 				.execute(String.format(CommonUtils.SEARCH_CITY, cityName));
 	}
 
 	@Override
 	public void onResult(RequestType type, JSONObject result) {
 		switch (type) {
-		case REQ_SEARCH_CITY:
+		case SEARCH_CITY:
 			try {
 				fetchedCities = Parser.parseCities(result);
 				if (fetchedCities.size() != 0) {
