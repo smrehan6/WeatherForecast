@@ -1,5 +1,6 @@
 package me.smr.weatherforecast;
 
+import me.smr.weatherforecast.utils.DBHelper;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -13,10 +14,13 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 		if (savedInstanceState == null) {
 			// TODO check if no cities are added the AddCityFragment will be
-			// called only if the cities array is empty
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.container, new AddCityFragment()).commit();
-			// TODO else show city(s) forecast data
+			if (DBHelper.getInstance().getAllCities().isEmpty()) {
+				// called only if the cities array is empty
+				getSupportFragmentManager().beginTransaction()
+						.add(R.id.container, new AddCityFragment()).commit();
+			} else {
+				// TODO else show city(s) forecast data
+			}
 		}
 	}
 
