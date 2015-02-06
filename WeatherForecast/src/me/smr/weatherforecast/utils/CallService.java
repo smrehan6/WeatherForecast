@@ -39,22 +39,26 @@ public class CallService extends AsyncTask<String, Void, String> {
 	private RequestInterface callback;
 	private ProgressDialog dialog;
 	private final RequestType type;
+	private final boolean showLoader;
 
 	public CallService(Context ctx, RequestInterface reqInterface,
-			RequestType type) {
+			RequestType type, boolean showLoader) {
 		this.ctx = ctx;
 		this.callback = reqInterface;
 		this.type = type;
+		this.showLoader = showLoader;
 	}
 
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		dialog = new ProgressDialog(ctx);
-		dialog.setMessage("Loading...");
-		dialog.setIndeterminate(true);
-		dialog.setCancelable(false);
-		dialog.show();
+		if (showLoader) {
+			dialog = new ProgressDialog(ctx);
+			dialog.setMessage("Loading...");
+			dialog.setIndeterminate(true);
+			dialog.setCancelable(false);
+			dialog.show();
+		}
 	}
 
 	@Override
@@ -98,14 +102,18 @@ public class CallService extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		dialog.dismiss();
+		if (showLoader)
+			dialog.dismiss();
 		try {
 			JSONObject response = new JSONObject(result);
 			callback.onResult(type, response);
 		} catch (JSONException e) {
+			e.printStackTrace();
 			showDialog(ctx, result);
+			callback.onError(type);
 		} catch (Exception e) {
 			e.printStackTrace();
+			callback.onError(type);
 			showDialog(ctx, "Error Occured: " + e.getMessage());
 		}
 	}

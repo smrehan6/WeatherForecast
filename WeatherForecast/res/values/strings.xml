@@ -3,7 +3,7 @@
 
     <string name="app_name">Weather Forecast</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="done">DONE</string>
 
     <!-- Add city fragment -->
     <string name="add_city">Add City</string>
