@@ -1,0 +1,24 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".AddCityFragment" >
+
+    <AutoCompleteTextView
+        android:id="@+id/etCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_name"
+        android:imeOptions="actionSearch|actionGo"
+        android:singleLine="true"
+        android:textColor="#000" />
+
+    <ListView
+        android:id="@+id/lvCities"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/etCity"
+        android:layout_marginTop="10dp" />
+
+</RelativeLayout>
