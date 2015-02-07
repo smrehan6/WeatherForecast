@@ -44,6 +44,7 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 	@Override
 	public View onCreateView(LayoutInflater inflater,
 			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+		// TODO autorefresh when cities added/deleted
 		View v = inflater.inflate(R.layout.layout_weather_frag, container,
 				false);
 		swipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);

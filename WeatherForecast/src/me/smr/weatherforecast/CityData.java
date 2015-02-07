@@ -12,7 +12,7 @@ public class CityData {
 	}
 
 	public String getTemp() {
-		return temp;
+		return temp + " °C";
 	}
 
 	public String getWeather() {
