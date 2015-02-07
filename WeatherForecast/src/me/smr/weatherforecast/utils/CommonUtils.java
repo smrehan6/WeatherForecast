@@ -86,7 +86,7 @@ public final class CommonUtils {
 		tv.setText(msg);
 		Toast toast = new Toast(App.getContext());
 		toast.setView(v);
-		toast.setDuration(Toast.LENGTH_LONG);
+		toast.setDuration(Toast.LENGTH_SHORT);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
