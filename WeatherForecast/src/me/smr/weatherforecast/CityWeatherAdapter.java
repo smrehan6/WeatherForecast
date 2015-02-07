@@ -44,7 +44,7 @@ public class CityWeatherAdapter extends
 	public void onBindViewHolder(ViewHolder vh, int position) {
 		CityData city = data.get(position);
 		vh.name.setText(city.getCityName());
-		vh.temp.setText(city.getTemp() + " °C");
+		vh.temp.setText(city.getTemp());
 		vh.weather.setText(city.getWeather());
 		vh.img.setImageResource(city.getImage());
 	}
