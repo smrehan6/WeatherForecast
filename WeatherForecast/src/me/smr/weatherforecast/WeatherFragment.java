@@ -57,15 +57,20 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 				.getString(KEY_WEATHER_DATA, null);
 		if (jsonString != null) {
 			// we have previously store data so set adapter
-			Log.d(KEY_WEATHER_DATA, "Data found! Parsing...");
-			// TODO refresh if timestamp too old
-			try {
-				dataList = Parser.parseWeatherData(jsonString);
-				Log.v("list", dataList.toString());
-				adapter = new CityWeatherAdapter(dataList);
-				recyclerView.setAdapter(adapter);
-			} catch (JSONException e) {
-				e.printStackTrace();
+			long timestamp = getActivity().getSharedPreferences(
+					KEY_WEATHER_DATA, 0).getLong(KEY_TIMESTAMP, 0);
+			if (System.currentTimeMillis() - timestamp >= 10 * 60 * 1000) {
+				// stored data is old so refresh
+				getCitiesWeather(true);
+			} else {
+				try {
+					dataList = Parser.parseWeatherData(jsonString);
+					Log.v("list", dataList.toString());
+					adapter = new CityWeatherAdapter(dataList);
+					recyclerView.setAdapter(adapter);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 		} else {
 			// call webservice to get data
