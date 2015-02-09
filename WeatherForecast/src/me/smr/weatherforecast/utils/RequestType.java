@@ -11,9 +11,9 @@ public enum RequestType {
 	/**
 	 * get current weather data
 	 * */
-	CURRENT,
+	GET_CURRENT,
 	/**
 	 * get forecast
 	 * */
-	GET_FORECAST
+	GET_FORECAST, GET_CITY_BY_LOCATION
 }
