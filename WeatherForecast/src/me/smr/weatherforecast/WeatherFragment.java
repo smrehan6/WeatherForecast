@@ -62,12 +62,14 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 					KEY_WEATHER_DATA, 0).getLong(KEY_TIMESTAMP, 0);
 			if (System.currentTimeMillis() - timestamp >= 10 * 60 * 1000) {
 				// stored data is old so refresh
+				CommonUtils.showToast("Refreshing...");
 				getCitiesWeather(true);
 			} else {
 				try {
 					dataList = Parser.parseWeatherData(jsonString);
 					Log.v("list", dataList.toString());
-					adapter = new CityWeatherAdapter(dataList);
+					adapter = new CityWeatherAdapter(getActivity()
+							.getSupportFragmentManager(), dataList);
 					recyclerView.setAdapter(adapter);
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -103,6 +105,7 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 				swipeLayout.setEnabled(topRowVerticalPosition >= 0);
 			}
 		});
+
 		return v;
 	}
 
@@ -138,7 +141,8 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 				.putLong(KEY_TIMESTAMP, System.currentTimeMillis()).commit();
 		try {
 			dataList = Parser.parseWeatherData(result.toString());
-			adapter = new CityWeatherAdapter(dataList);
+			adapter = new CityWeatherAdapter(getActivity()
+					.getSupportFragmentManager(), dataList);
 			recyclerView.setAdapter(adapter);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -155,7 +159,7 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 	}
 
 	/**
-	 * calls the webservice to get current weather if all the stored cities.
+	 * calls the web-service to get current weather if all the stored cities.
 	 * 
 	 * @param flag
 	 *            a {@code boolean} to determine if the
