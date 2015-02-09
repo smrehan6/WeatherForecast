@@ -102,6 +102,7 @@ public class CallService extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
+		Log.v("result", result);
 		if (showLoader)
 			dialog.dismiss();
 		try {

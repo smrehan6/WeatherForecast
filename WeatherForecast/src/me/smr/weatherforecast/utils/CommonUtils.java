@@ -35,9 +35,12 @@ public final class CommonUtils {
 	 * This will be used to get current weather details of any city
 	 * */
 	public static final String GET_CURRENT_WEATHER = "http://api.openweathermap.org/data/2.5/group?id=%s&units=metric";
-	
+
 	// this will be used for getting 14 day forecast of provided city
-	public static final String GET_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily?cnt=14&units=metric&id=";
+	public static final String GET_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily?cnt=16&units=metric&id=";
+
+	// get the current city details of the lat long
+	public static final String GET_CITY = "http://api.openweathermap.org/data/2.5/weather?lat=%1$f&lon=%2$f";
 
 	/**
 	 * shows {@code AlertDialog}. If the {@code Activity} is not visible then
@@ -51,8 +54,7 @@ public final class CommonUtils {
 	public static void showDialog(Context ctx, String msg) {
 		AlertDialog.Builder alert = new Builder(ctx);
 		alert.setMessage(msg);
-		// TODO title changes
-		alert.setTitle("Alert");
+		alert.setTitle(R.string.app_name);
 		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 			}

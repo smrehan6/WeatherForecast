@@ -34,6 +34,7 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 	private static final String KEY_WEATHER_DATA = "weather_data";
 	// This will be used to store timestamp
 	private static final String KEY_TIMESTAMP = "timestamp";
+	private static final long ONE_HOUR = 60L * 60L * 1000L;
 	private ArrayList<CityData> dataList = new ArrayList<CityData>();
 	private String jsonString;
 	private RecyclerView recyclerView;
@@ -60,7 +61,7 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 			// we have previously store data so set adapter
 			long timestamp = getActivity().getSharedPreferences(
 					KEY_WEATHER_DATA, 0).getLong(KEY_TIMESTAMP, 0);
-			if (System.currentTimeMillis() - timestamp >= 10 * 60 * 1000) {
+			if (System.currentTimeMillis() - timestamp >= ONE_HOUR) {
 				// stored data is old so refresh
 				CommonUtils.showToast("Refreshing...");
 				getCitiesWeather(true);
@@ -125,7 +126,9 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 					.replace(R.id.container, new AddCityFragment(),
 							AddCityFragment.class.getSimpleName()).commit();
 			return true;
-
+		case R.id.action_help:
+			CommonUtils.showDialog(getActivity(), R.string.help_msg);
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -170,7 +173,7 @@ public class WeatherFragment extends Fragment implements RequestInterface,
 			swipeLayout.setRefreshing(true);
 		final String URL = String.format(CommonUtils.GET_CURRENT_WEATHER,
 				DBHelper.getInstance().getAllCityIDs());
-		new CallService(getActivity(), this, RequestType.CURRENT, false)
+		new CallService(getActivity(), this, RequestType.GET_CURRENT, false)
 				.execute(URL);
 	}
 

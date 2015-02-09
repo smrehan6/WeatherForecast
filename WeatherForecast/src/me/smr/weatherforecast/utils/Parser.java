@@ -18,6 +18,15 @@ public final class Parser {
 	private Parser() {
 	}
 
+	public static City parseCity(JSONObject ob) throws JSONException{
+		int id = ob.getInt("id");
+		String name = ob.getString("name");
+		String countryCode = ob.getJSONObject("sys").getString("country");
+		double latitude = ob.getJSONObject("coord").getDouble("lat");
+		double longtitude = ob.getJSONObject("coord").getDouble("lon");
+		return new City(id, name, countryCode, latitude, longtitude);
+	}
+	
 	public static ArrayList<City> parseCities(JSONObject result)
 			throws JSONException {
 		ArrayList<City> list = new ArrayList<City>();
@@ -42,6 +51,7 @@ public final class Parser {
 		for (int i = 0; i < arr.length(); i++) {
 			JSONObject ob = arr.getJSONObject(i);
 			CityData cityData = new CityData();
+			cityData.setId(ob.getString("id"));
 			cityData.setCityName(ob.getString("name") + ", "
 					+ ob.getJSONObject("sys").getString("country"));
 			JSONObject weather = ob.getJSONArray("weather").getJSONObject(0);
