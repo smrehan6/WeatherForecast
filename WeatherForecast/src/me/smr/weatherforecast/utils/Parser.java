@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import me.smr.weatherforecast.City;
 import me.smr.weatherforecast.CityData;
+import me.smr.weatherforecast.Forecast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +49,24 @@ public final class Parser {
 			cityData.setWeather(weather.getString("description"));
 			cityData.setTemp(ob.getJSONObject("main").getString("temp"));
 			list.add(cityData);
+		}
+		return list;
+	}
+
+	public static ArrayList<Forecast> parseForecasts(JSONArray arr)
+			throws JSONException {
+		ArrayList<Forecast> list = new ArrayList<Forecast>();
+		for (int i = 0; i < arr.length(); i++) {
+			JSONObject ob = arr.getJSONObject(i);
+			Forecast forecast = new Forecast();
+			forecast.date = ob.getLong("dt");
+			JSONObject temp = ob.getJSONObject("temp");
+			forecast.temp = "Min: " + temp.getString("min") + "\nMax: "
+					+ temp.getString("max");
+			JSONObject weather = ob.getJSONArray("weather").getJSONObject(0);
+			forecast.weather = weather.getString("description");
+			forecast.img = weather.getString("icon");
+			list.add(forecast);
 		}
 		return list;
 	}

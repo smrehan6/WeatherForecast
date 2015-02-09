@@ -2,9 +2,12 @@ package me.smr.weatherforecast;
 
 import java.util.ArrayList;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,22 +15,25 @@ import android.widget.TextView;
 public class CityWeatherAdapter extends
 		RecyclerView.Adapter<CityWeatherAdapter.ViewHolder> {
 
+	private FragmentManager fm;
 	private ArrayList<CityData> data;
 
-	public CityWeatherAdapter(ArrayList<CityData> data) {
+	public CityWeatherAdapter(FragmentManager fm, ArrayList<CityData> data) {
 		super();
 		this.data = data;
+		this.fm = fm;
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
-		// each data item is just a string in this case
-		protected ImageView img;
-		protected TextView name;
-		protected TextView temp;
-		protected TextView weather;
+		private ImageView img;
+		private TextView name;
+		private TextView temp;
+		private TextView weather;
+		private CardView card;
 
 		public ViewHolder(View v) {
 			super(v);
+			card = (CardView) v.findViewById(R.id.card_view);
 			img = (ImageView) v.findViewById(R.id.imgWeather);
 			name = (TextView) v.findViewById(R.id.cityName);
 			temp = (TextView) v.findViewById(R.id.txtTemp);
@@ -42,11 +48,21 @@ public class CityWeatherAdapter extends
 
 	@Override
 	public void onBindViewHolder(ViewHolder vh, int position) {
-		CityData city = data.get(position);
+		final CityData city = data.get(position);
 		vh.name.setText(city.getCityName());
 		vh.temp.setText(city.getTemp());
 		vh.weather.setText(city.getWeather());
 		vh.img.setImageResource(city.getImage());
+
+		vh.card.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				fm.beginTransaction()
+						.replace(R.id.container, new ForecastFragment(city))
+						.addToBackStack(ForecastFragment.class.getSimpleName())
+						.commit();
+			}
+		});
 	}
 
 	@Override

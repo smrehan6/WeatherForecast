@@ -2,6 +2,7 @@ package me.smr.weatherforecast;
 
 public class CityData {
 
+	private String id;
 	private String cityName;
 	private String temp;
 	private String weather;
@@ -70,6 +71,14 @@ public class CityData {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

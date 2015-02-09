@@ -30,11 +30,14 @@ public final class CommonUtils {
 	 * {@code openweathermap.org} database.
 	 * */
 	public static final String SEARCH_CITY = "http://api.openweathermap.org/data/2.5/find?q=%s&type=like";
-	
+
 	/**
-	 * This will be used to git current weather details of any city
+	 * This will be used to get current weather details of any city
 	 * */
 	public static final String GET_CURRENT_WEATHER = "http://api.openweathermap.org/data/2.5/group?id=%s&units=metric";
+	
+	// this will be used for getting 14 day forecast of provided city
+	public static final String GET_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily?cnt=14&units=metric&id=";
 
 	/**
 	 * shows {@code AlertDialog}. If the {@code Activity} is not visible then
