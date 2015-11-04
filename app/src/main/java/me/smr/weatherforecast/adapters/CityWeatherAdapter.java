@@ -1,6 +1,4 @@
-package me.smr.weatherforecast;
-
-import java.util.ArrayList;
+package me.smr.weatherforecast.adapters;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
@@ -11,6 +9,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
+import me.smr.weatherforecast.R;
+import me.smr.weatherforecast.fragments.ForecastFragment;
+import me.smr.weatherforecast.models.CityData;
 
 public class CityWeatherAdapter extends
 		RecyclerView.Adapter<CityWeatherAdapter.ViewHolder> {

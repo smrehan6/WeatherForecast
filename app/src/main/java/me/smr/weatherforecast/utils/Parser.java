@@ -1,14 +1,15 @@
 package me.smr.weatherforecast.utils;
 
-import java.util.ArrayList;
-
-import me.smr.weatherforecast.City;
-import me.smr.weatherforecast.CityData;
-import me.smr.weatherforecast.Forecast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import me.smr.weatherforecast.models.City;
+import me.smr.weatherforecast.models.CityData;
+import me.smr.weatherforecast.models.Forecast;
+
 
 /**
  * This utility class will be used for {@code JSON parsing} throughout the App.

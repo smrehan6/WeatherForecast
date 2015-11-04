@@ -1,4 +1,4 @@
-package me.smr.weatherforecast;
+package me.smr.weatherforecast.models;
 
 /**
  * This model class will be used to keep the required details of any city.
