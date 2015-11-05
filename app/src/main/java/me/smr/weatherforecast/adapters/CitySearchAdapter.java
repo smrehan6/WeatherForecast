@@ -1,4 +1,4 @@
-package me.smr.weatherforecast;
+package me.smr.weatherforecast.adapters;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import me.smr.weatherforecast.R;
+import me.smr.weatherforecast.models.City;
 
 /**
  * This Adapter will be used to show dropdown in the city search

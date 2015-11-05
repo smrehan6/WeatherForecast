@@ -1,8 +1,11 @@
-package me.smr.weatherforecast;
+package me.smr.weatherforecast.fragments;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 
+import me.smr.weatherforecast.R;
+import me.smr.weatherforecast.models.CityData;
+import me.smr.weatherforecast.models.Forecast;
 import me.smr.weatherforecast.utils.CallService;
 import me.smr.weatherforecast.utils.CommonUtils;
 import me.smr.weatherforecast.utils.Parser;

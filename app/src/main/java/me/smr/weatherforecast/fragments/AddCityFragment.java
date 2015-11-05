@@ -1,9 +1,12 @@
-package me.smr.weatherforecast;
+package me.smr.weatherforecast.fragments;
 
 import static me.smr.weatherforecast.utils.CommonUtils.showToast;
 
 import java.util.ArrayList;
 
+import me.smr.weatherforecast.R;
+import me.smr.weatherforecast.adapters.CitySearchAdapter;
+import me.smr.weatherforecast.models.City;
 import me.smr.weatherforecast.utils.CallService;
 import me.smr.weatherforecast.utils.CommonUtils;
 import me.smr.weatherforecast.utils.DBHelper;

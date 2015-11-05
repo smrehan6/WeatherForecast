@@ -1,15 +1,16 @@
 package me.smr.weatherforecast.utils;
 
-import java.util.ArrayList;
-
-import me.smr.weatherforecast.App;
-import me.smr.weatherforecast.City;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
+
+import java.util.ArrayList;
+
+import me.smr.weatherforecast.App;
+import me.smr.weatherforecast.models.City;
 
 /**
  * This Singleton class will be used for all the database operations.

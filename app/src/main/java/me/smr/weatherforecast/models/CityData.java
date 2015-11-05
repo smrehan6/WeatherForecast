@@ -1,4 +1,6 @@
-package me.smr.weatherforecast;
+package me.smr.weatherforecast.models;
+
+import me.smr.weatherforecast.R;
 
 public class CityData {
 

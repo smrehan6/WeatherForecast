@@ -1,4 +1,4 @@
-package me.smr.weatherforecast;
+package me.smr.weatherforecast.models;
 
 public class Forecast {
 	public long date;
