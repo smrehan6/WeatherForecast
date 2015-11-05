@@ -21,28 +21,6 @@ public final class CommonUtils {
 	}
 
 	/**
-	 * The APPID (API key) provided by {@code openweathermap.org}
-	 * */
-	public static final String APPID = "e1ec7985dbbd4af7f73ae7d3bb99453a";
-
-	/**
-	 * This URL will be used to search any city in the
-	 * {@code openweathermap.org} database.
-	 * */
-	public static final String SEARCH_CITY = "http://api.openweathermap.org/data/2.5/find?q=%s&type=like";
-
-	/**
-	 * This will be used to get current weather details of any city
-	 * */
-	public static final String GET_CURRENT_WEATHER = "http://api.openweathermap.org/data/2.5/group?id=%s&units=metric";
-
-	// this will be used for getting 14 day forecast of provided city
-	public static final String GET_FORECAST = "http://api.openweathermap.org/data/2.5/forecast/daily?cnt=16&units=metric&id=";
-
-	// get the current city details of the lat long
-	public static final String GET_CITY = "http://api.openweathermap.org/data/2.5/weather?lat=%1$f&lon=%2$f";
-
-	/**
 	 * shows {@code AlertDialog}. If the {@code Activity} is not visible then
 	 * show a {@code Toast}.
 	 * 
@@ -99,7 +77,7 @@ public final class CommonUtils {
 	/**
 	 * shows custom {@code Toast}.
 	 * 
-	 * @param resid
+	 * @param resId
 	 *            The resource id of the string in the {@code strings.xml}.
 	 * */
 	public static void showToast(int resId) {

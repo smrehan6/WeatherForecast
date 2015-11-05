@@ -9,6 +9,7 @@ import me.smr.weatherforecast.adapters.CitySearchAdapter;
 import me.smr.weatherforecast.models.City;
 import me.smr.weatherforecast.utils.CallService;
 import me.smr.weatherforecast.utils.CommonUtils;
+import me.smr.weatherforecast.utils.Constants;
 import me.smr.weatherforecast.utils.DBHelper;
 import me.smr.weatherforecast.utils.Parser;
 import me.smr.weatherforecast.utils.RequestInterface;
@@ -116,7 +117,7 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 	 * */
 	private void searchCity(String cityName) {
 		new CallService(getActivity(), this, RequestType.SEARCH_CITY, true)
-				.execute(String.format(CommonUtils.SEARCH_CITY, cityName));
+				.execute(String.format(Constants.SEARCH_CITY, cityName));
 	}
 
 	@Override
