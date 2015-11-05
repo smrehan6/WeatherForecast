@@ -1,14 +1,37 @@
 package me.smr.weatherforecast.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import me.smr.weatherforecast.R;
 
-public class CityData {
+public class CityData implements Parcelable{
 
 	private String id;
 	private String cityName;
 	private String temp;
 	private String weather;
 	private String image;
+
+	protected CityData(Parcel in) {
+		id = in.readString();
+		cityName = in.readString();
+		temp = in.readString();
+		weather = in.readString();
+		image = in.readString();
+	}
+
+	public static final Creator<CityData> CREATOR = new Creator<CityData>() {
+		@Override
+		public CityData createFromParcel(Parcel in) {
+			return new CityData(in);
+		}
+
+		@Override
+		public CityData[] newArray(int size) {
+			return new CityData[size];
+		}
+	};
 
 	public String getCityName() {
 		return cityName;
@@ -83,4 +106,17 @@ public class CityData {
 		this.id = id;
 	}
 
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel parcel, int i) {
+		parcel.writeString(id);
+		parcel.writeString(cityName);
+		parcel.writeString(temp);
+		parcel.writeString(weather);
+		parcel.writeString(image);
+	}
 }

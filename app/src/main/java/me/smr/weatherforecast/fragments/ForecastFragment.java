@@ -28,133 +28,141 @@ import android.widget.TextView;
 
 public class ForecastFragment extends Fragment implements RequestInterface {
 
-	// The city to be displayed
-	private CityData city;
-	private ImageView img;
-	private TextView txtCityName, txtCurrent;
-	ArrayList<Forecast> list;
-	ListView listView;
+    public static final String ARG_CITY_DATA = "CITY_DATA";
 
-	public ForecastFragment(CityData city) {
-		this.city = city;
-	}
+    // The city to be displayed
+    private CityData city;
+    private ImageView img;
+    private TextView txtCityName, txtCurrent;
+    ArrayList<Forecast> list;
+    ListView listView;
 
-	@SuppressLint("InflateParams")
-	@Override
-	public View onCreateView(LayoutInflater inflater,
-			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.forecast_frag, container, false);
-		listView = (ListView) v.findViewById(R.id.lvForecasts);
+    public static ForecastFragment newInstance(CityData data) {
+        ForecastFragment fragment = new ForecastFragment();
+        Bundle extras = new Bundle();
+        extras.putParcelable(ARG_CITY_DATA, data);
+        fragment.setArguments(extras);
+        return fragment;
+    }
 
-		// header
-		View header = inflater.inflate(R.layout.forecast_header, null, false);
-		img = (ImageView) header.findViewById(R.id.img);
-		txtCityName = (TextView) header.findViewById(R.id.txtCity);
-		txtCurrent = (TextView) header.findViewById(R.id.txtCurrent);
+    @SuppressLint("InflateParams")
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.forecast_frag, container, false);
+        listView = (ListView) v.findViewById(R.id.lvForecasts);
 
-		txtCityName.setText(city.getCityName());
-		txtCurrent.setText(city.getTemp() + " " + city.getWeather());
-		img.setImageResource(city.getImage());
-		listView.addHeaderView(header);
+        city = getArguments().getParcelable(ARG_CITY_DATA);
 
-		setHasOptionsMenu(true);
-		getActivity().setTitle(city.getCityName());
-		CommonUtils.showToast("Loading...");
-		new CallService(getActivity(), this, RequestType.GET_FORECAST, false)
-				.execute(CommonUtils.GET_FORECAST + city.getId());
-		return v;
-	}
+        // header
+        View header = inflater.inflate(R.layout.forecast_header, null, false);
+        img = (ImageView) header.findViewById(R.id.img);
+        txtCityName = (TextView) header.findViewById(R.id.txtCity);
+        txtCurrent = (TextView) header.findViewById(R.id.txtCurrent);
 
-	@Override
-	public void onResult(RequestType type, JSONObject result) {
-		try {
-			list = Parser.parseForecasts(result.getJSONArray("list"));
-			listView.setAdapter(new ForecastAdapter());
-		} catch (Exception e) {
-			e.printStackTrace();
-			CommonUtils.showToast("Error occured!");
-		}
+        txtCityName.setText(city.getCityName());
+        txtCurrent.setText(city.getTemp() + " " + city.getWeather());
+        img.setImageResource(city.getImage());
+        listView.addHeaderView(header);
 
-	}
+        setHasOptionsMenu(true);
+        getActivity().setTitle(city.getCityName());
+        CommonUtils.showToast("Loading...");
+        new CallService(getActivity(), this, RequestType.GET_FORECAST, false)
+                .execute(CommonUtils.GET_FORECAST + city.getId());
+        return v;
+    }
 
-	@Override
-	public void onError(RequestType type) {
-	}
+    @Override
+    public void onResult(RequestType type, JSONObject result) {
+        try {
+            list = Parser.parseForecasts(result.getJSONArray("list"));
+            listView.setAdapter(new ForecastAdapter());
+        } catch (Exception e) {
+            e.printStackTrace();
+            CommonUtils.showToast("Error occured!");
+        }
 
-	private class ForecastAdapter extends BaseAdapter {
+    }
 
-		@Override
-		public int getCount() {
-			return list.size();
-		}
+    @Override
+    public void onError(RequestType type) {
+    }
 
-		@Override
-		public Forecast getItem(int position) {
-			return list.get(position);
-		}
+    private class ForecastAdapter extends BaseAdapter {
 
-		@Override
-		public long getItemId(int position) {
-			return 0;
-		}
+        @Override
+        public int getCount() {
+            return list.size();
+        }
 
-		@Override
-		public View getView(int position, View v, ViewGroup parent) {
-			TextView date, temp, weather;
-			ImageView img;
-			if (v == null) {
-				v = LayoutInflater.from(getActivity()).inflate(
-						R.layout.forecast_list_item, parent, false);
-			}
-			Forecast forecast = list.get(position);
-			date = (TextView) v.findViewById(R.id.txtDate);
-			temp = (TextView) v.findViewById(R.id.txtTemp);
-			weather = (TextView) v.findViewById(R.id.txtWeather);
-			img = (ImageView) v.findViewById(R.id.img);
-			date.setText(DateFormat.getDateInstance().format(
-					forecast.date * 1000));
-			temp.setText(forecast.temp);
-			weather.setText(forecast.weather);
-			img.setImageResource(getImage(forecast.img));
-			return v;
-		}
+        @Override
+        public Forecast getItem(int position) {
+            return list.get(position);
+        }
 
-	}
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
 
-	public int getImage(String image) {
-		switch (image) {
-		case "01d":
-			return R.drawable.d1;
-		case "01n":
-			return R.drawable.n1;
-		case "02d":
-			return R.drawable.d2;
-		case "02n":
-			return R.drawable.n2;
-		case "03d":
-		case "03n":
-			return R.drawable.d3;
-		case "04d":
-		case "04n":
-			return R.drawable.d4;
-		case "09d":
-		case "09n":
-			return R.drawable.d9;
-		case "10d":
-			return R.drawable.d10;
-		case "10n":
-			return R.drawable.n10;
-		case "11d":
-		case "11n":
-			return R.drawable.d11;
-		case "13d":
-		case "13n":
-			return R.drawable.d13;
-		case "50d":
-		case "50n":
-			return R.drawable.d50;
-		default:
-			return R.drawable.logo;
-		}
-	}
+        @Override
+        public View getView(int position, View v, ViewGroup parent) {
+            TextView date, temp, weather;
+            ImageView img;
+            if (v == null) {
+                v = LayoutInflater.from(getActivity()).inflate(
+                        R.layout.forecast_list_item, parent, false);
+            }
+            Forecast forecast = list.get(position);
+            date = (TextView) v.findViewById(R.id.txtDate);
+            temp = (TextView) v.findViewById(R.id.txtTemp);
+            weather = (TextView) v.findViewById(R.id.txtWeather);
+            img = (ImageView) v.findViewById(R.id.img);
+            date.setText(DateFormat.getDateInstance().format(
+                    forecast.date * 1000));
+            temp.setText(forecast.temp);
+            weather.setText(forecast.weather);
+            img.setImageResource(getImage(forecast.img));
+            return v;
+        }
+
+    }
+
+    public int getImage(String image) {
+        switch (image) {
+            case "01d":
+                return R.drawable.d1;
+            case "01n":
+                return R.drawable.n1;
+            case "02d":
+                return R.drawable.d2;
+            case "02n":
+                return R.drawable.n2;
+            case "03d":
+            case "03n":
+                return R.drawable.d3;
+            case "04d":
+            case "04n":
+                return R.drawable.d4;
+            case "09d":
+            case "09n":
+                return R.drawable.d9;
+            case "10d":
+                return R.drawable.d10;
+            case "10n":
+                return R.drawable.n10;
+            case "11d":
+            case "11n":
+                return R.drawable.d11;
+            case "13d":
+            case "13n":
+                return R.drawable.d13;
+            case "50d":
+            case "50n":
+                return R.drawable.d50;
+            default:
+                return R.drawable.logo;
+        }
+    }
 }
