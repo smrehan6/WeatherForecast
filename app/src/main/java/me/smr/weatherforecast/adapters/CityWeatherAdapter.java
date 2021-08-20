@@ -1,8 +1,5 @@
 package me.smr.weatherforecast.adapters;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,14 +7,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 
 import me.smr.weatherforecast.R;
 import me.smr.weatherforecast.fragments.ForecastFragment;
 import me.smr.weatherforecast.models.CityData;
 
-public class CityWeatherAdapter extends
-        RecyclerView.Adapter<CityWeatherAdapter.ViewHolder> {
+public class CityWeatherAdapter extends RecyclerView.Adapter<CityWeatherAdapter.ViewHolder> {
 
     private FragmentManager fm;
     private ArrayList<CityData> data;

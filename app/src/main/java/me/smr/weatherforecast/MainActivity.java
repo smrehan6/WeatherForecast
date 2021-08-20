@@ -15,9 +15,10 @@ import me.smr.weatherforecast.utils.RequestType;
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -26,7 +27,7 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
 
-public class MainActivity extends ActionBarActivity implements
+public class MainActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, RequestInterface {
 
     private static final String KEY_PREF = "firstrun";
@@ -84,8 +85,7 @@ public class MainActivity extends ActionBarActivity implements
     @Override
     public void onConnected(Bundle arg0) {
         Log.v("GPS", "connected");
-        Location lastLocation = LocationServices.FusedLocationApi
-                .getLastLocation(mClient);
+        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(mClient);
         if (lastLocation != null) {
             getCity(lastLocation);
         } else {

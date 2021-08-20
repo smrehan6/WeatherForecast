@@ -1,5 +1,23 @@
 package me.smr.weatherforecast.fragments;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import me.smr.weatherforecast.R;
@@ -13,26 +31,7 @@ import me.smr.weatherforecast.utils.Parser;
 import me.smr.weatherforecast.utils.RequestInterface;
 import me.smr.weatherforecast.utils.RequestType;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-public class WeatherFragment extends Fragment implements RequestInterface,
-        OnRefreshListener {
+public class WeatherFragment extends Fragment implements RequestInterface, SwipeRefreshLayout.OnRefreshListener {
 
     // The cities' weather data will be stored as a JSON using this key.
     private static final String KEY_WEATHER_DATA = "weather_data";
@@ -148,8 +147,7 @@ public class WeatherFragment extends Fragment implements RequestInterface,
                 .putLong(KEY_TIMESTAMP, System.currentTimeMillis()).commit();
         try {
             dataList = Parser.parseWeatherData(result.toString());
-            adapter = new CityWeatherAdapter(getActivity()
-                    .getSupportFragmentManager(), dataList);
+            adapter = new CityWeatherAdapter(getActivity().getSupportFragmentManager(), dataList);
             recyclerView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();

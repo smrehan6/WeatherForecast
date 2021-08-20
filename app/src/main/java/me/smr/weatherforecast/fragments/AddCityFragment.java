@@ -18,8 +18,6 @@ import me.smr.weatherforecast.utils.RequestType;
 import org.json.JSONObject;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -35,6 +33,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * This fragment will be used to add/remove cities by the user.
@@ -55,8 +56,7 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 	private SavedCityAdapter adapter;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater,
-			@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.layout_add_city, container, false);
 		etCity = (AutoCompleteTextView) v.findViewById(R.id.etCity);
 		listView = (ListView) v.findViewById(R.id.lvCities);
