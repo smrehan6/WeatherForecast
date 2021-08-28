@@ -10,6 +10,7 @@ a simple weather forecast app based on openweathermap.org
 - [x] Use Retrofit
 - [ ] Use Jetpack navigation
 - [ ] Use Room
-- [ ] switch to MVVM
+- [ ] Switch to MVVM
+- [ ] Use HILT
 - [ ] Use Jetpack Compose
 - [ ] Update GPS related code
