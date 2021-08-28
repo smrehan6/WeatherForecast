@@ -23,7 +23,6 @@ import me.smr.weatherforecast.models.CityData;
 import me.smr.weatherforecast.models.Forecast;
 import me.smr.weatherforecast.utils.CallService;
 import me.smr.weatherforecast.utils.CommonUtils;
-import me.smr.weatherforecast.utils.Constants;
 import me.smr.weatherforecast.utils.Parser;
 import me.smr.weatherforecast.utils.RequestInterface;
 import me.smr.weatherforecast.utils.RequestType;
@@ -70,8 +69,7 @@ public class ForecastFragment extends Fragment implements RequestInterface {
         setHasOptionsMenu(true);
         getActivity().setTitle(city.getCityName());
         CommonUtils.showToast("Loading...");
-        new CallService(getActivity(), this, RequestType.GET_FORECAST, false)
-                .execute(Constants.GET_FORECAST + city.getId());
+        new CallService(getActivity(), this, RequestType.GET_FORECAST, false).execute(city.getId());
         return v;
     }
 

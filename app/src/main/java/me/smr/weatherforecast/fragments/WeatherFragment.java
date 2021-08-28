@@ -25,7 +25,6 @@ import me.smr.weatherforecast.adapters.CityWeatherAdapter;
 import me.smr.weatherforecast.models.CityData;
 import me.smr.weatherforecast.utils.CallService;
 import me.smr.weatherforecast.utils.CommonUtils;
-import me.smr.weatherforecast.utils.Constants;
 import me.smr.weatherforecast.utils.DBHelper;
 import me.smr.weatherforecast.utils.Parser;
 import me.smr.weatherforecast.utils.RequestInterface;
@@ -172,10 +171,8 @@ public class WeatherFragment extends Fragment implements RequestInterface, Swipe
     private void getCitiesWeather(boolean flag) {
         if (flag)
             swipeLayout.setRefreshing(true);
-        final String URL = String.format(Constants.GET_CURRENT_WEATHER,
-                DBHelper.getInstance().getAllCityIDs());
-        new CallService(getActivity(), this, RequestType.GET_CURRENT, false)
-                .execute(URL);
+        final String ids = DBHelper.getInstance().getAllCityIDs();
+        new CallService(getActivity(), this, RequestType.GET_CURRENT, false).execute(ids);
     }
 
     @Override

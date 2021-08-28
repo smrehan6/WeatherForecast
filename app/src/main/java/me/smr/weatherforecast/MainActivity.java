@@ -1,17 +1,5 @@
 package me.smr.weatherforecast;
 
-import org.json.JSONObject;
-
-import me.smr.weatherforecast.fragments.AddCityFragment;
-import me.smr.weatherforecast.fragments.WeatherFragment;
-import me.smr.weatherforecast.utils.CallService;
-import me.smr.weatherforecast.utils.CommonUtils;
-import me.smr.weatherforecast.utils.Constants;
-import me.smr.weatherforecast.utils.DBHelper;
-import me.smr.weatherforecast.utils.Parser;
-import me.smr.weatherforecast.utils.RequestInterface;
-import me.smr.weatherforecast.utils.RequestType;
-
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.os.Bundle;
@@ -26,6 +14,17 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
+
+import org.json.JSONObject;
+
+import me.smr.weatherforecast.fragments.AddCityFragment;
+import me.smr.weatherforecast.fragments.WeatherFragment;
+import me.smr.weatherforecast.utils.CallService;
+import me.smr.weatherforecast.utils.CommonUtils;
+import me.smr.weatherforecast.utils.DBHelper;
+import me.smr.weatherforecast.utils.Parser;
+import me.smr.weatherforecast.utils.RequestInterface;
+import me.smr.weatherforecast.utils.RequestType;
 
 public class MainActivity extends AppCompatActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, RequestInterface {
@@ -124,10 +123,8 @@ public class MainActivity extends AppCompatActivity implements
 
     @SuppressLint("DefaultLocale")
     private void getCity(Location location) {
-        final String URL = String.format(Constants.GET_CITY,
-                location.getLatitude(), location.getLongitude());
         new CallService(this, this, RequestType.GET_CITY_BY_LOCATION, true)
-                .execute(URL);
+                .execute(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
     }
 
     @Override

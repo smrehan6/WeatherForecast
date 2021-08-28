@@ -2,21 +2,6 @@ package me.smr.weatherforecast.fragments;
 
 import static me.smr.weatherforecast.utils.CommonUtils.showToast;
 
-import java.util.ArrayList;
-
-import me.smr.weatherforecast.R;
-import me.smr.weatherforecast.adapters.CitySearchAdapter;
-import me.smr.weatherforecast.models.City;
-import me.smr.weatherforecast.utils.CallService;
-import me.smr.weatherforecast.utils.CommonUtils;
-import me.smr.weatherforecast.utils.Constants;
-import me.smr.weatherforecast.utils.DBHelper;
-import me.smr.weatherforecast.utils.Parser;
-import me.smr.weatherforecast.utils.RequestInterface;
-import me.smr.weatherforecast.utils.RequestType;
-
-import org.json.JSONObject;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -36,6 +21,20 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import me.smr.weatherforecast.R;
+import me.smr.weatherforecast.adapters.CitySearchAdapter;
+import me.smr.weatherforecast.models.City;
+import me.smr.weatherforecast.utils.CallService;
+import me.smr.weatherforecast.utils.CommonUtils;
+import me.smr.weatherforecast.utils.DBHelper;
+import me.smr.weatherforecast.utils.Parser;
+import me.smr.weatherforecast.utils.RequestInterface;
+import me.smr.weatherforecast.utils.RequestType;
 
 /**
  * This fragment will be used to add/remove cities by the user.
@@ -116,8 +115,7 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 	 * city name.
 	 * */
 	private void searchCity(String cityName) {
-		new CallService(getActivity(), this, RequestType.SEARCH_CITY, true)
-				.execute(String.format(Constants.SEARCH_CITY, cityName));
+		new CallService(getActivity(), this, RequestType.SEARCH_CITY, true).execute(cityName);
 	}
 
 	@Override

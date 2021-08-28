@@ -2,22 +2,20 @@ package me.smr.weatherforecast.utils;
 
 import static me.smr.weatherforecast.utils.CommonUtils.showDialog;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import me.smr.weatherforecast.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import me.smr.weatherforecast.api.WeatherAPI;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Retrofit;
 
 /**
  * This is a custom {@code AsyncTask} to call the web-APIs
@@ -27,12 +25,16 @@ public class CallService extends AsyncTask<String, Void, String> {
     /**
      * Timeout limit constant in milliseconds for each server request.
      */
-    private static final int TIMEOUT = 10 * 1000;
+    private static final WeatherAPI api;
     private Context ctx;
-    private RequestInterface callback;
+    private final RequestInterface callback;
     private ProgressDialog dialog;
     private final RequestType type;
     private final boolean showLoader;
+
+    static {
+        api = new Retrofit.Builder().baseUrl(WeatherAPI.BASE_URL).build().create(WeatherAPI.class);
+    }
 
     public CallService(Context ctx, RequestInterface reqInterface,
                        RequestType type, boolean showLoader) {
@@ -56,51 +58,26 @@ public class CallService extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        final String url = removeSpacesFromUrl(params[0]);
-        HttpURLConnection conn = null;
-        InputStream is = null;
-        Log.v("URL", url);
-        try {
-            URL mUrl = new URL(url);
-            conn = (HttpURLConnection) mUrl.openConnection();
-            conn.setReadTimeout(TIMEOUT);
-            conn.setConnectTimeout(TIMEOUT);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.connect();
-            int responseCode = conn.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                is = conn.getInputStream();
-                BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(is, "iso-8859-1"), 8);
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line).append("\n");
-                }
-                return sb.toString();
-            } else {
-                return ctx.getString(R.string.invalid_resp);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ctx.getString(R.string.connection_error);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Error Occured: " + e.getMessage();
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    // do nothing
-                }
-            }
-            if (conn != null) {
-                conn.disconnect();
-            }
+        Call<ResponseBody> call = null;
+        switch (type) {
+            case SEARCH_CITY:
+                call = api.find(params[0]);
+                break;
+            case GET_CURRENT:
+                call = api.getCurrentWeather(params[0]);
+                break;
+            case GET_FORECAST:
+                call = api.getForecast(params[0]);
+                break;
+            case GET_CITY_BY_LOCATION:
+                call = api.getWeatherByLoc(params[0], params[1]);
         }
+        try {
+            return call.execute().body().string();
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -121,15 +98,6 @@ public class CallService extends AsyncTask<String, Void, String> {
             callback.onError(type);
             showDialog(ctx, "Error Occured: " + e.getMessage());
         }
-    }
-
-    /**
-     * Replaces all {@code SPACEs} with {@code %20}.
-     *
-     * @param url the {@code String} which might contain the spaces.
-     */
-    private static String removeSpacesFromUrl(String url) {
-        return url.replaceAll(" ", "%20");
     }
 
 }

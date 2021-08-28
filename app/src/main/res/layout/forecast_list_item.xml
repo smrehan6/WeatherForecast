@@ -8,6 +8,7 @@
         android:id="@+id/img"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:src="@drawable/d10"
         android:layout_alignParentLeft="true"
         android:contentDescription="@null" />
 
@@ -16,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/img"
+        android:text="06/11/1987"
         android:layout_toRightOf="@+id/img"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#000" />
@@ -24,6 +26,7 @@
         android:id="@+id/txtTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="1*C"
         android:layout_below="@id/txtDate"
         android:layout_toRightOf="@+id/img"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -33,6 +36,7 @@
         android:id="@+id/txtWeather"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Cloudy"
         android:layout_below="@id/txtTemp"
         android:layout_toRightOf="@+id/img"
         android:textAppearance="?android:attr/textAppearanceMedium"
