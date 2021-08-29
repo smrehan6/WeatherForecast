@@ -55,7 +55,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	}
 
 	private DBHelper() {
-		super(App.getContext(), DATABASE_NAME, null, DB_VERSION);
+		super(App.getInstance(), DATABASE_NAME, null, DB_VERSION);
 	}
 
 	@Override

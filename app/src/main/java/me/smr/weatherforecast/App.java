@@ -5,19 +5,19 @@ import android.content.Context;
 
 public class App extends Application {
 
-    private static Context context;
+    private static App instance = null;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        context = this.getApplicationContext();
+        instance = this;
     }
 
     /**
      * @return gloval Context for Application
      */
-    public static Context getContext() {
-        return context;
+    public static App getInstance() {
+        return instance;
     }
 
 }
