@@ -97,7 +97,6 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 
 	@Override
 	public boolean onKey(View v, int keyCode, KeyEvent event) {
-		// v.onKeyDown(keyCode, event);
 		if (event.getAction() == KeyEvent.ACTION_DOWN
 				&& (keyCode == KeyEvent.KEYCODE_SEARCH || keyCode == KeyEvent.KEYCODE_ENTER)) {
 			if (etCity.getText().toString().trim().length() == 0) {
@@ -105,9 +104,8 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 				return false;
 			}
 			searchCity(etCity.getText().toString().trim());
-			return true;
 		}
-		return v.onKeyDown(keyCode, event);
+		return true;
 	}
 
 	/**
