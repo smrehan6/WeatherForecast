@@ -29,7 +29,7 @@ import me.smr.weatherforecast.utils.RequestType;
 
 public class ForecastFragment extends Fragment implements RequestInterface {
 
-    public static final String ARG_CITY_DATA = "CITY_DATA";
+    public static final String ARG_CITY_DATA = "argCityData";
 
     // The city to be displayed
     private CityData city;

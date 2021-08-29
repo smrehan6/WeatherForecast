@@ -8,24 +8,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 import me.smr.weatherforecast.R;
-import me.smr.weatherforecast.fragments.ForecastFragment;
 import me.smr.weatherforecast.models.CityData;
 
 public class CityWeatherAdapter extends RecyclerView.Adapter<CityWeatherAdapter.ViewHolder> {
 
-    private FragmentManager fm;
     private ArrayList<CityData> data;
+    private OnCityClickedListener listener;
 
-    public CityWeatherAdapter(FragmentManager fm, ArrayList<CityData> data) {
+    public CityWeatherAdapter(ArrayList<CityData> data, OnCityClickedListener listener) {
         super();
         this.data = data;
-        this.fm = fm;
+        this.listener = listener;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -61,18 +59,14 @@ public class CityWeatherAdapter extends RecyclerView.Adapter<CityWeatherAdapter.
         vh.card.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                fm.beginTransaction()
-                        .replace(R.id.container, ForecastFragment.newInstance(city))
-                        .addToBackStack(ForecastFragment.class.getSimpleName())
-                        .commit();
+                if (listener != null) listener.onCityClicked(city);
             }
         });
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.city_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.city_item, parent, false);
         return new ViewHolder(v);
     }
 }

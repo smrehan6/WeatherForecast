@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import org.json.JSONObject;
 
@@ -85,9 +86,8 @@ public class AddCityFragment extends Fragment implements OnKeyListener,
 			if (DBHelper.getInstance().getCityCount() == 0) {
 				CommonUtils.showToast("Please add at least one city");
 			} else {
-				getActivity().getSupportFragmentManager().beginTransaction()
-						.replace(R.id.container, new WeatherFragment())
-						.commit();
+				NavHostFragment nav = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+				nav.getNavController().navigateUp();
 			}
 			return true;
 		default:

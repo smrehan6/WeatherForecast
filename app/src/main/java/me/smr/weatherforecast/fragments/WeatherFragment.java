@@ -9,8 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 
 import me.smr.weatherforecast.R;
 import me.smr.weatherforecast.adapters.CityWeatherAdapter;
+import me.smr.weatherforecast.adapters.OnCityClickedListener;
 import me.smr.weatherforecast.models.CityData;
 import me.smr.weatherforecast.utils.CallService;
 import me.smr.weatherforecast.utils.CommonUtils;
@@ -30,18 +33,19 @@ import me.smr.weatherforecast.utils.Parser;
 import me.smr.weatherforecast.utils.RequestInterface;
 import me.smr.weatherforecast.utils.RequestType;
 
-public class WeatherFragment extends Fragment implements RequestInterface, SwipeRefreshLayout.OnRefreshListener {
+public class WeatherFragment extends Fragment implements
+        RequestInterface,
+        SwipeRefreshLayout.OnRefreshListener,
+        OnCityClickedListener {
 
     // The cities' weather data will be stored as a JSON using this key.
     private static final String KEY_WEATHER_DATA = "weather_data";
     // This will be used to store timestamp
     private static final String KEY_TIMESTAMP = "timestamp";
     private static final long ONE_HOUR = 60L * 60L * 1000L;
-    private ArrayList<CityData> dataList = new ArrayList<CityData>();
-    private String jsonString;
+    private ArrayList<CityData> dataList = new ArrayList<>();
     private RecyclerView recyclerView;
     private CityWeatherAdapter adapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private SwipeRefreshLayout swipeLayout;
 
     @Override
@@ -52,17 +56,16 @@ public class WeatherFragment extends Fragment implements RequestInterface, Swipe
                 false);
         swipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeLayout);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        jsonString = getActivity().getSharedPreferences(KEY_WEATHER_DATA, 0)
+        String jsonString = requireContext().getSharedPreferences(KEY_WEATHER_DATA, 0)
                 .getString(KEY_WEATHER_DATA, null);
         if (jsonString != null) {
             // we have previously store data so set adapter
-            long timestamp = getActivity().getSharedPreferences(
-                    KEY_WEATHER_DATA, 0).getLong(KEY_TIMESTAMP, 0);
+            long timestamp = requireContext().getSharedPreferences(KEY_WEATHER_DATA, 0).getLong(KEY_TIMESTAMP, 0);
             if (System.currentTimeMillis() - timestamp >= ONE_HOUR) {
                 // stored data is old so refresh
                 CommonUtils.showToast("Refreshing...");
@@ -71,8 +74,7 @@ public class WeatherFragment extends Fragment implements RequestInterface, Swipe
                 try {
                     dataList = Parser.parseWeatherData(jsonString);
                     Log.v("list", dataList.toString());
-                    adapter = new CityWeatherAdapter(getActivity()
-                            .getSupportFragmentManager(), dataList);
+                    adapter = new CityWeatherAdapter(dataList, this::onCityClicked);
                     recyclerView.setAdapter(adapter);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -122,11 +124,8 @@ public class WeatherFragment extends Fragment implements RequestInterface, Swipe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add:
-                getActivity()
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.container, new AddCityFragment(),
-                                AddCityFragment.class.getSimpleName()).commit();
+                NavHostFragment nhf = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                nhf.getNavController().navigate(R.id.action_add_city);
                 return true;
             case R.id.action_help:
                 CommonUtils.showDialog(getActivity(), R.string.help_msg);
@@ -141,12 +140,12 @@ public class WeatherFragment extends Fragment implements RequestInterface, Swipe
         swipeLayout.setRefreshing(false);
         dataList.clear();
         // store the result
-        getActivity().getSharedPreferences(KEY_WEATHER_DATA, 0).edit()
+        requireContext().getSharedPreferences(KEY_WEATHER_DATA, 0).edit()
                 .putString(KEY_WEATHER_DATA, result.toString())
                 .putLong(KEY_TIMESTAMP, System.currentTimeMillis()).commit();
         try {
             dataList = Parser.parseWeatherData(result.toString());
-            adapter = new CityWeatherAdapter(getActivity().getSupportFragmentManager(), dataList);
+            adapter = new CityWeatherAdapter(dataList, this::onCityClicked);
             recyclerView.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -180,4 +179,12 @@ public class WeatherFragment extends Fragment implements RequestInterface, Swipe
         getCitiesWeather(false);
     }
 
+    @Override
+    public void onCityClicked(@NonNull CityData city) {
+        // TODO use navigation.safeargs plugin
+        NavHostFragment nav = (NavHostFragment) requireActivity().getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        Bundle args = new Bundle();
+        args.putParcelable("argCityData", city);
+        nav.getNavController().navigate(R.id.action_show_forecast, args);
+    }
 }

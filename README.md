@@ -8,7 +8,7 @@ a simple weather forecast app based on openweathermap.org
 
 ### TODOs
 - [x] Use Retrofit
-- [ ] Use Jetpack navigation
+- [x] Use Jetpack navigation
 - [ ] Use Room
 - [ ] Switch to MVVM
 - [ ] Use HILT
