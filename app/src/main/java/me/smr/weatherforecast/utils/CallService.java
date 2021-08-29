@@ -5,7 +5,6 @@ import static me.smr.weatherforecast.utils.CommonUtils.showDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +12,9 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import me.smr.weatherforecast.api.WeatherAPI;
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 
@@ -33,7 +34,12 @@ public class CallService extends AsyncTask<String, Void, String> {
     private final boolean showLoader;
 
     static {
-        api = new Retrofit.Builder().baseUrl(WeatherAPI.BASE_URL).build().create(WeatherAPI.class);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BODY))
+                .build();
+        api = new Retrofit.Builder().baseUrl(WeatherAPI.BASE_URL)
+                .client(client).build().create(WeatherAPI.class);
     }
 
     public CallService(Context ctx, RequestInterface reqInterface,
