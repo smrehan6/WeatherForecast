@@ -9,8 +9,8 @@ a simple weather forecast app based on openweathermap.org
 ### TODOs
 - [x] Use Retrofit
 - [x] Use Jetpack navigation
-- [ ] Use Room
+- [x] Use Room
+- [x] Use HILT
 - [ ] Switch to MVVM
-- [ ] Use HILT
 - [ ] Use Jetpack Compose
 - [ ] Update GPS related code
