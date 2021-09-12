@@ -1,7 +1,6 @@
 package me.smr.weatherforecast.di
 
 import android.content.Context
-import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +15,6 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): WeatherDatabase {
-        return Room.databaseBuilder(context, WeatherDatabase::class.java, "weather.db").build()
+        return WeatherDatabase(context)
     }
 }

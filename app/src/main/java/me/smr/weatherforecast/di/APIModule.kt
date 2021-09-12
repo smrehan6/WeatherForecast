@@ -16,14 +16,5 @@ object APIModule {
 
     @Provides
     @Singleton
-    fun provideWeatherAPI(): WeatherAPI {
-        val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(logger).build()
-        return Retrofit.Builder()
-            .baseUrl(WeatherAPI.BASE_URL)
-            .client(client)
-            .build()
-            .create(WeatherAPI::class.java)
-    }
+    fun provideWeatherAPI() = WeatherAPI()
 }

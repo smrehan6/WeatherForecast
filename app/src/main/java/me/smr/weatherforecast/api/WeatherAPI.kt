@@ -1,7 +1,10 @@
 package me.smr.weatherforecast.api
 
+import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -25,5 +28,16 @@ interface WeatherAPI {
     companion object {
         private const val APP_ID = "e1ec7985dbbd4af7f73ae7d3bb99453a"
         const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+
+        operator fun invoke(): WeatherAPI {
+            val logger = HttpLoggingInterceptor()
+            logger.level = HttpLoggingInterceptor.Level.BODY
+            val client = OkHttpClient.Builder().addInterceptor(logger).build()
+            return Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(client)
+                .build()
+                .create(WeatherAPI::class.java)
+        }
     }
 }
