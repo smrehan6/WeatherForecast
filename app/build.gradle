@@ -53,8 +53,7 @@ dependencies {
     implementation 'com.fredporciuncula:flow-preferences:1.5.0'
     // Room
     def room_version = "2.3.0"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
     // HILT
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
