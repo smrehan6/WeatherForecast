@@ -5,8 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [CityDAO::class], version = 1)
+@Database(entities = [CityEntity::class], version = 1)
 abstract class WeatherDatabase : RoomDatabase() {
+
     abstract fun getCityDao(): CityDAO
 
     companion object {
