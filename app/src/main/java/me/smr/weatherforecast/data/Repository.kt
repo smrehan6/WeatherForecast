@@ -16,6 +16,8 @@ class Repository @Inject constructor(
         return api.searchCity(query)
     }
 
+    suspend fun saveCity(city: CityEntity) = cityDAO.insertCity(city)
+
     companion object {
         const val TAG = "Repository"
     }

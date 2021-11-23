@@ -3,6 +3,8 @@ package me.smr.weatherforecast.ui.home
 import android.util.Log
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.smr.weatherforecast.data.Repository
 import me.smr.weatherforecast.models.CitySearchResult
@@ -57,14 +59,21 @@ class HomeViewModel @Inject constructor(
         showSearch()
     }
 
-    fun showSearch(){
+    fun showSearch() {
         _showSearchResults.value = true
         _showWeather.value = false
     }
 
-    fun hideSearch(){
+    fun hideSearch() {
         _showSearchResults.value = false
         _showWeather.value = true
+    }
+
+    fun onSearchResultClicked(city: CitySearchResult) {
+        Log.i(TAG, "onSearchResultClicked: $city")
+        CoroutineScope(Dispatchers.IO).launch {
+            repository.saveCity(city.toEntity())
+        }
     }
 
     companion object {

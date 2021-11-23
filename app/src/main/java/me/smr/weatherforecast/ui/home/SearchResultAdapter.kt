@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import me.smr.weatherforecast.models.CitySearchResult
 
-class SearchResultAdapter :
+class SearchResultAdapter(private val searchClickListener: SearchClickListener) :
     ListAdapter<CitySearchResult, SearchResultAdapter.SearchViewHolder>(SearchDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
@@ -16,7 +16,11 @@ class SearchResultAdapter :
     }
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        val item = getItem(position)
+        holder.bind(item)
+        holder.textView.setOnClickListener {
+            searchClickListener.onSearchItemClicked(item)
+        }
     }
 
     class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

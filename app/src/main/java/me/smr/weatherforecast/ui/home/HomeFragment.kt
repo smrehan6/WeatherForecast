@@ -8,17 +8,19 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import me.smr.weatherforecast.R
 import me.smr.weatherforecast.databinding.HomeFragmentBinding
+import me.smr.weatherforecast.models.CitySearchResult
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
-    private lateinit var searchView: SearchView
+    private lateinit var searchMenu:MenuItem
     private val viewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -30,11 +32,17 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewmodel = viewModel
 
-        val searchAdapter = SearchResultAdapter()
+        val searchAdapter = SearchResultAdapter(object : SearchClickListener {
+            override fun onSearchItemClicked(item: CitySearchResult) {
+                viewModel.onSearchResultClicked(item)
+                searchMenu.collapseActionView()
+            }
+        })
 
         binding.lvSearch.let {
             val layoutManager = LinearLayoutManager(requireContext())
             layoutManager.orientation = RecyclerView.VERTICAL
+            it.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
             it.layoutManager = layoutManager
             it.adapter = searchAdapter
         }
@@ -56,8 +64,9 @@ class HomeFragment : Fragment() {
         val searchManager =
             requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
-        val searchMenuItem = menu.findItem(R.id.search)
-        searchView = searchMenuItem.actionView as SearchView
+        searchMenu = menu.findItem(R.id.search)
+
+        val searchView = searchMenu.actionView as SearchView
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
 
@@ -75,7 +84,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        searchMenuItem.setOnActionExpandListener(listener)
+        searchMenu.setOnActionExpandListener(listener)
 
     }
 
