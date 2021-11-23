@@ -8,6 +8,6 @@ data class CityEntity(
     @PrimaryKey val id: String,
     val name: String,
     val countryCode: String,
-    val latitude: String,
-    val longitude: String
+    val latitude: Double,
+    val longitude: Double
 )

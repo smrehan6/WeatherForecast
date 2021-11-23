@@ -7,6 +7,7 @@
 
     <!-- Add city fragment -->
     <string name="help">Help</string>
+    <string name="search">Search</string>
     <string name="add_city">Add City</string>
     <string name="hint_name">Enter city name</string>
     <string name="help_msg">The data will be updated after 1 hour.\nSwipe down to refresh manually.\nTap on a city to view forecasts.</string>

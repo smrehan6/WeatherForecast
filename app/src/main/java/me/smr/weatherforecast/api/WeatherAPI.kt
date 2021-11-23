@@ -5,6 +5,7 @@ import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -12,6 +13,9 @@ interface WeatherAPI {
 
     @GET("find?type=like&APPID=$APP_ID")
     fun find(@Query("q") name: String): Call<ResponseBody>
+
+    @GET("find?type=like&APPID=$APP_ID")
+    suspend fun searchCity(@Query("q") name: String): SearchResponse
 
     @GET("group?units=metric&APPID=$APP_ID")
     fun getCurrentWeather(@Query("id") id: String): Call<ResponseBody>
@@ -36,6 +40,7 @@ interface WeatherAPI {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(WeatherAPI::class.java)
         }

@@ -1,13 +1,15 @@
 package me.smr.weatherforecast.ui.home
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import me.smr.weatherforecast.R
 import me.smr.weatherforecast.databinding.HomeFragmentBinding
@@ -16,21 +18,69 @@ import me.smr.weatherforecast.databinding.HomeFragmentBinding
 class HomeFragment : Fragment() {
 
     private lateinit var binding: HomeFragmentBinding
-    private val viewModel by viewModels<HomeViewModel>()
+    private lateinit var searchView: SearchView
+    private val viewModel: HomeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = HomeFragmentBinding.inflate(inflater, container, false)
-        binding.btnAddCity.setOnClickListener {
-            findNavController().navigate(R.id.action_add_city)
+
+        binding.lifecycleOwner = this
+        binding.viewmodel = viewModel
+
+        val searchAdapter = SearchResultAdapter()
+
+        binding.lvSearch.let {
+            val layoutManager = LinearLayoutManager(requireContext())
+            layoutManager.orientation = RecyclerView.VERTICAL
+            it.layoutManager = layoutManager
+            it.adapter = searchAdapter
         }
-        requireActivity().setTitle(R.string.app_name)
-        viewModel.data.asLiveData().observe(viewLifecycleOwner, {
-            // TODO send data to recyclerview
+
+        viewModel.searchResult.observe(viewLifecycleOwner, {
+            Log.i(TAG, "search: ${it.size}")
+            searchAdapter.submitList(it)
         })
+
+        requireActivity().setTitle(R.string.app_name)
+        setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.home, menu)
+        // Associate searchable configuration with the SearchView
+        val searchManager =
+            requireActivity().getSystemService(Context.SEARCH_SERVICE) as SearchManager
+
+        val searchMenuItem = menu.findItem(R.id.search)
+        searchView = searchMenuItem.actionView as SearchView
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(requireActivity().componentName))
+
+        val listener = object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                Log.i(TAG, "onMenuItemActionExpand: ")
+                viewModel.showSearch()
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                Log.i(TAG, "onMenuItemActionCollapse: ")
+                viewModel.hideSearch()
+                return true
+            }
+        }
+
+        searchMenuItem.setOnActionExpandListener(listener)
+
+    }
+
+    companion object {
+        const val TAG = "HomeFragment"
     }
 
 }
