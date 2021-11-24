@@ -26,6 +26,9 @@ interface WeatherAPI {
     @GET("forecast/daily?cnt=16&units=metric&APPID=$APP_ID")
     fun getForecast(@Query("id") id: String): Call<ResponseBody>
 
+    @GET("forecast/daily?cnt=16&units=metric&APPID=$APP_ID")
+    suspend fun fetchForecast(@Query("id") id: String): ForecastResponse
+
     @GET("weather?APPID=$APP_ID")
     fun getWeatherByLoc(@Query("lat") lat: String, @Query("lon") lon: String): Call<ResponseBody>
 

@@ -45,3 +45,38 @@ data class WeatherResponse(
     @SerializedName("cnt") val count: Int,
     val list: List<NetworkCity>
 )
+
+data class ForecastResponse(
+    val city: City,
+    val list: List<NetworkForecast>
+)
+
+data class City(
+    val id: String,
+    val name: String,
+    val coord: Coord,
+    val country: String,
+    val timezone: Int
+)
+
+data class NetworkForecast(
+    val dt: Long,
+    val sunrise: Long,
+    val sunset: Long,
+    val temp: Temp,
+    @SerializedName("feels_like") var feelsLike: Temp,
+    val pressure: Int,
+    val humidity: Int,
+    val weather: List<NetworkWeather>,
+    val speed: Double,
+    val deg: Int,
+)
+
+data class Temp(
+    val day: Double,
+    val min: Double? = null,
+    val max: Double? = null,
+    val night: Double,
+    val eve: Double,
+    val morn: Double,
+)

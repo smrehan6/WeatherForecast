@@ -21,8 +21,8 @@
         tools:layout="@layout/forecast_frag">
 
         <argument
-            android:name="argCityData"
-            app:argType="me.smr.weatherforecast.models.CityData"
+            android:name="argCityID"
+            app:argType="string"
             app:nullable="false" />
 
     </fragment>

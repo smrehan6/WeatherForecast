@@ -1,168 +1,68 @@
-package me.smr.weatherforecast.fragments;
+package me.smr.weatherforecast.fragments
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import me.smr.weatherforecast.adapters.ForecastAdapter
+import me.smr.weatherforecast.databinding.ForecastFragBinding
+import me.smr.weatherforecast.models.CityData
+import me.smr.weatherforecast.utils.Result
+import me.smr.weatherforecast.viewmodels.ForecastViewModel
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+@AndroidEntryPoint
+class ForecastFragment : Fragment() {
 
-import org.json.JSONObject;
+    private lateinit var binding: ForecastFragBinding
+    private val vm: ForecastViewModel by viewModels()
 
-import java.text.DateFormat;
-import java.util.ArrayList;
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        binding = ForecastFragBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.viewmodel = vm
 
-import me.smr.weatherforecast.R;
-import me.smr.weatherforecast.models.CityData;
-import me.smr.weatherforecast.models.Forecast;
-import me.smr.weatherforecast.utils.CallService;
-import me.smr.weatherforecast.utils.CommonUtils;
-import me.smr.weatherforecast.utils.Parser;
-import me.smr.weatherforecast.utils.RequestInterface;
-import me.smr.weatherforecast.utils.RequestType;
+        val adapter = ForecastAdapter()
 
-public class ForecastFragment extends Fragment implements RequestInterface {
+        binding.lvForecast.adapter = adapter
 
-    public static final String ARG_CITY_DATA = "argCityData";
-
-    // The city to be displayed
-    private CityData city;
-    private ImageView img;
-    private TextView txtCityName, txtCurrent;
-    ArrayList<Forecast> list;
-    ListView listView;
-
-    public static ForecastFragment newInstance(CityData data) {
-        ForecastFragment fragment = new ForecastFragment();
-        Bundle extras = new Bundle();
-        extras.putParcelable(ARG_CITY_DATA, data);
-        fragment.setArguments(extras);
-        return fragment;
-    }
-
-    @SuppressLint("InflateParams")
-    @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.forecast_frag, container, false);
-        listView = (ListView) v.findViewById(R.id.lvForecasts);
-
-        city = getArguments().getParcelable(ARG_CITY_DATA);
-
-        // header
-        View header = inflater.inflate(R.layout.forecast_header, null, false);
-        img = (ImageView) header.findViewById(R.id.img);
-        txtCityName = (TextView) header.findViewById(R.id.txtCity);
-        txtCurrent = (TextView) header.findViewById(R.id.txtCurrent);
-
-        txtCityName.setText(city.getCityName());
-        txtCurrent.setText(city.getTemp() + " " + city.getWeather());
-        img.setImageResource(city.getImage());
-        listView.addHeaderView(header);
-
-        setHasOptionsMenu(true);
-        getActivity().setTitle(city.getCityName());
-        CommonUtils.showToast("Loading...");
-        new CallService(getActivity(), this, RequestType.GET_FORECAST, false).execute(city.getId());
-        return v;
-    }
-
-    @Override
-    public void onResult(RequestType type, JSONObject result) {
-        try {
-            list = Parser.parseForecasts(result.getJSONArray("list"));
-            listView.setAdapter(new ForecastAdapter());
-        } catch (Exception e) {
-            e.printStackTrace();
-            CommonUtils.showToast("Error occured!");
-        }
-
-    }
-
-    @Override
-    public void onError(RequestType type) {
-    }
-
-    private class ForecastAdapter extends BaseAdapter {
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Forecast getItem(int position) {
-            return list.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View v, ViewGroup parent) {
-            TextView date, temp, weather;
-            ImageView img;
-            if (v == null) {
-                v = LayoutInflater.from(getActivity()).inflate(
-                        R.layout.forecast_list_item, parent, false);
+        vm.data.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Error -> {
+                    Snackbar.make(
+                        binding.root,
+                        "ERR: ${result.error.message}",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+                is Result.Value -> {
+                    adapter.submitList(result.value)
+                }
+                Result.Loading -> {
+                    // do nothing
+                }
             }
-            Forecast forecast = list.get(position);
-            date = (TextView) v.findViewById(R.id.txtDate);
-            temp = (TextView) v.findViewById(R.id.txtTemp);
-            weather = (TextView) v.findViewById(R.id.txtWeather);
-            img = (ImageView) v.findViewById(R.id.img);
-            date.setText(DateFormat.getDateInstance().format(
-                    forecast.date * 1000));
-            temp.setText(forecast.temp);
-            weather.setText(forecast.weather);
-            img.setImageResource(getImage(forecast.img));
-            return v;
         }
 
+        return binding.root
     }
 
-    public int getImage(String image) {
-        switch (image) {
-            case "01d":
-                return R.drawable.d1;
-            case "01n":
-                return R.drawable.n1;
-            case "02d":
-                return R.drawable.d2;
-            case "02n":
-                return R.drawable.n2;
-            case "03d":
-            case "03n":
-                return R.drawable.d3;
-            case "04d":
-            case "04n":
-                return R.drawable.d4;
-            case "09d":
-            case "09n":
-                return R.drawable.d9;
-            case "10d":
-                return R.drawable.d10;
-            case "10n":
-                return R.drawable.n10;
-            case "11d":
-            case "11n":
-                return R.drawable.d11;
-            case "13d":
-            case "13n":
-                return R.drawable.d13;
-            case "50d":
-            case "50n":
-                return R.drawable.d50;
-            default:
-                return R.drawable.logo;
+
+    companion object {
+
+        const val ARG_CITY_ID = "argCityID"
+
+        fun newInstance(data: CityData?): ForecastFragment {
+            val fragment = ForecastFragment()
+            val extras = Bundle()
+            extras.putParcelable(ARG_CITY_ID, data)
+            fragment.arguments = extras
+            return fragment
         }
     }
 }

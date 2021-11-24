@@ -1,14 +1,15 @@
 package me.smr.weatherforecast.utils
 
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import me.smr.weatherforecast.R
-import me.smr.weatherforecast.models.WeatherData
+import java.text.DateFormat
 
 @BindingAdapter("weatherImage")
-fun ImageView.setWeatherImage(item: WeatherData) {
+fun ImageView.setWeatherImage(icon: String) {
     setImageResource(
-        when (item.icon) {
+        when (icon) {
             "01d" -> R.drawable.d1
             "01n" -> R.drawable.n1
             "02d" -> R.drawable.d2
@@ -24,4 +25,9 @@ fun ImageView.setWeatherImage(item: WeatherData) {
             else -> R.drawable.d10
         }
     )
+}
+
+@BindingAdapter("dateFormatted")
+fun TextView.setDateFormatted(date: Long) {
+    text = DateFormat.getDateInstance().format(date * 1000)
 }

@@ -44,7 +44,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:weatherImage="@{weather}"
+                app:weatherImage="@{weather.icon}"
                 tools:src="@drawable/d1" />
 
             <TextView

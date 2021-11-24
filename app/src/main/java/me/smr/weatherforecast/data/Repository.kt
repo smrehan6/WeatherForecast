@@ -24,6 +24,8 @@ class Repository @Inject constructor(
 
     suspend fun saveCity(city: CityEntity) = cityDAO.insertCity(city)
 
+    suspend fun fetchForecast(id: String) = api.fetchForecast(id)
+
     companion object {
         const val TAG = "Repository"
     }

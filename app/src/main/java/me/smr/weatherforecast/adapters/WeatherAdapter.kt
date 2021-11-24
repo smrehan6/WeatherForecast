@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import me.smr.weatherforecast.databinding.WeatherListItemBinding
 import me.smr.weatherforecast.fragments.HomeFragmentDirections
-import me.smr.weatherforecast.models.CityData
 import me.smr.weatherforecast.models.WeatherData
 
 class WeatherAdapter : ListAdapter<WeatherData, WeatherAdapter.ViewHolder>(WeatherDiffCallback()) {
@@ -26,17 +25,11 @@ class WeatherAdapter : ListAdapter<WeatherData, WeatherAdapter.ViewHolder>(Weath
 
         fun bind(item: WeatherData) {
             binding.weather = item
+            binding.executePendingBindings()
         }
 
         private fun navigateToForecast(weatherData: WeatherData, view: View) {
-            val cityData = CityData().apply {
-                id = weatherData.id
-                cityName = weatherData.name
-                temp = weatherData.temps
-                weather = weatherData.description
-                setImage(weatherData.icon)
-            }
-            val direction = HomeFragmentDirections.actionShowForecast(cityData)
+            val direction = HomeFragmentDirections.actionShowForecast(weatherData.id)
             view.findNavController().navigate(direction)
         }
 
