@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -11,31 +10,9 @@
         android:label="@string/app_name"
         tools:layout="@layout/home_fragment" >
         <action
-            android:id="@+id/action_add_city"
-            app:destination="@id/addCityFragment" />
-        <action
             android:id="@+id/action_show_forecast"
             app:destination="@id/forcastFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/weatherFragment"
-        android:name="me.smr.weatherforecast.fragments.WeatherFragment"
-        android:label="@string/app_name"
-        tools:layout="@layout/layout_weather_frag">
-        <action
-            android:id="@+id/action_add_city"
-            app:destination="@id/addCityFragment" />
-        <action
-            android:id="@+id/action_show_forecast"
-            app:destination="@id/forcastFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/addCityFragment"
-        android:name="me.smr.weatherforecast.fragments.AddCityFragment"
-        android:label="@string/add_city"
-        tools:layout="@layout/layout_add_city" />
 
     <fragment
         android:id="@+id/forcastFragment"

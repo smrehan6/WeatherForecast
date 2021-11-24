@@ -1,5 +1,7 @@
 package me.smr.weatherforecast.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import me.smr.weatherforecast.data.CityEntity
 
 data class CitySearchResult(
@@ -12,6 +14,7 @@ data class CitySearchResult(
     fun toEntity(): CityEntity = CityEntity(id, name, country, latitude, longitude)
 }
 
+@Parcelize
 data class WeatherData(
     val id: String,
     val name: String,
@@ -19,4 +22,4 @@ data class WeatherData(
     val dt: Long,
     val description: String,
     val icon: String
-)
+) : Parcelable
