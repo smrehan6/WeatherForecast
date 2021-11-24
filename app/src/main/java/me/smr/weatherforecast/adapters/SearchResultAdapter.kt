@@ -1,4 +1,4 @@
-package me.smr.weatherforecast.ui.home
+package me.smr.weatherforecast.adapters
 
 import android.view.LayoutInflater
 import android.view.View

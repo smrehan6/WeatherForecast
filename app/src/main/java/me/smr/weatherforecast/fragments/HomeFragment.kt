@@ -1,4 +1,4 @@
-package me.smr.weatherforecast.ui.home
+package me.smr.weatherforecast.fragments
 
 import android.app.SearchManager
 import android.content.Context
@@ -13,8 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import me.smr.weatherforecast.R
+import me.smr.weatherforecast.adapters.SearchClickListener
+import me.smr.weatherforecast.adapters.SearchResultAdapter
+import me.smr.weatherforecast.adapters.WeatherAdapter
 import me.smr.weatherforecast.databinding.HomeFragmentBinding
 import me.smr.weatherforecast.models.CitySearchResult
+import me.smr.weatherforecast.viewmodels.HomeViewModel
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {

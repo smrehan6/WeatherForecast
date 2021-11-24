@@ -1,4 +1,4 @@
-package me.smr.weatherforecast.ui.home
+package me.smr.weatherforecast.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.*

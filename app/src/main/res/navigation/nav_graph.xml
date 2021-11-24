@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="me.smr.weatherforecast.ui.home.HomeFragment"
+        android:name="me.smr.weatherforecast.fragments.HomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/home_fragment" >
         <action

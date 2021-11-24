@@ -8,7 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import dagger.hilt.android.AndroidEntryPoint
-import me.smr.weatherforecast.ui.home.HomeViewModel
+import me.smr.weatherforecast.viewmodels.HomeViewModel
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {

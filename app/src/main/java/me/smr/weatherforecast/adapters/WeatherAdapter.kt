@@ -1,4 +1,4 @@
-package me.smr.weatherforecast.ui.home
+package me.smr.weatherforecast.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import me.smr.weatherforecast.databinding.WeatherListItemBinding
+import me.smr.weatherforecast.fragments.HomeFragmentDirections
 import me.smr.weatherforecast.models.CityData
 import me.smr.weatherforecast.models.WeatherData
 
