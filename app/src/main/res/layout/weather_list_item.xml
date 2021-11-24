@@ -7,7 +7,12 @@
 
         <variable
             name="weather"
+            app:nullable="false"
             type="me.smr.weatherforecast.models.WeatherData" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
 
     </data>
 
@@ -18,6 +23,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:onClick="@{clickListener}"
         app:cardCornerRadius="4dp"
         app:cardElevation="8dp">
 
