@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.smr.weatherforecast.data.Repository
 import me.smr.weatherforecast.models.CitySearchResult
+import me.smr.weatherforecast.models.WeatherData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,12 +26,30 @@ class HomeViewModel @Inject constructor(
     private val _showWeather = MutableLiveData<Boolean>()
     val showWeather: LiveData<Boolean> = _showWeather
 
+    private val _weatherData = MutableLiveData<List<WeatherData>>()
+    val weatherData: LiveData<List<WeatherData>> = _weatherData
+
     init {
         viewModelScope.launch {
-            if (repository.getCityIDs().isNotEmpty()) {
-                Log.i(TAG, "have IDs")
-                // TODO fetch weather data
-
+            val cityIDs = repository.getCityIDs()
+            if (cityIDs.isNotEmpty()) {
+                val weatherDataList = mutableListOf<WeatherData>()
+                Log.i(TAG, "ids: $cityIDs")
+                val resp = repository.fetchWeatherData(cityIDs.joinToString(","))
+                resp.list.forEach {
+                    weatherDataList.add(
+                        WeatherData(
+                            it.id,
+                            it.name,
+                            it.main.temp.toString(),// TODO
+                            it.dt,
+                            it.weather[0].description,
+                            it.weather[0].icon
+                        )
+                    )
+                }
+                _weatherData.postValue(weatherDataList)
+                _showWeather.postValue(true)
             } else {
                 Log.i(TAG, "NO IDs")
                 _showWeather.postValue(false)

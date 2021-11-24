@@ -21,7 +21,7 @@ interface WeatherAPI {
     fun getCurrentWeather(@Query("id") id: String): Call<ResponseBody>
 
     @GET("group?units=metric&APPID=$APP_ID")
-    suspend fun getWeatherData(@Query("id") id: String): String
+    suspend fun getWeatherData(@Query("id") id: String): WeatherResponse
 
     @GET("forecast/daily?cnt=16&units=metric&APPID=$APP_ID")
     fun getForecast(@Query("id") id: String): Call<ResponseBody>

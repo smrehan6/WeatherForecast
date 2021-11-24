@@ -11,3 +11,12 @@ data class CitySearchResult(
 ) {
     fun toEntity(): CityEntity = CityEntity(id, name, country, latitude, longitude)
 }
+
+data class WeatherData(
+    val id: String,
+    val name: String,
+    val temps : String,
+    val dt: Long,
+    val description: String,
+    val icon: String
+)

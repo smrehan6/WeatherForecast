@@ -47,10 +47,24 @@ class HomeFragment : Fragment() {
             it.adapter = searchAdapter
         }
 
+        val weatherAdapter = WeatherAdapter()
+
+        binding.lvCities.let {
+            val layoutManager = LinearLayoutManager(requireContext())
+            layoutManager.orientation = RecyclerView.VERTICAL
+            it.layoutManager = layoutManager
+            it.adapter = weatherAdapter
+        }
+
         viewModel.searchResult.observe(viewLifecycleOwner, {
             Log.i(TAG, "search: ${it.size}")
             searchAdapter.submitList(it)
         })
+
+        viewModel.weatherData.observe(viewLifecycleOwner) {
+            Log.i(TAG, "weather: ${it.size}")
+            weatherAdapter.submitList(it)
+        }
 
         requireActivity().setTitle(R.string.app_name)
         setHasOptionsMenu(true)

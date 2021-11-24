@@ -2,6 +2,7 @@ package me.smr.weatherforecast.data
 
 import me.smr.weatherforecast.api.SearchResponse
 import me.smr.weatherforecast.api.WeatherAPI
+import me.smr.weatherforecast.api.WeatherResponse
 import javax.inject.Inject
 
 class Repository @Inject constructor(
@@ -14,6 +15,11 @@ class Repository @Inject constructor(
     suspend fun searchCity(query: String): SearchResponse {
         // TODO error handling
         return api.searchCity(query)
+    }
+
+    suspend fun fetchWeatherData(ids: String): WeatherResponse {
+        // TODO error handling
+        return api.getWeatherData(ids)
     }
 
     suspend fun saveCity(city: CityEntity) = cityDAO.insertCity(city)
