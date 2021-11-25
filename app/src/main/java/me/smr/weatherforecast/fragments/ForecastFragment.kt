@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.smr.weatherforecast.adapters.ForecastAdapter
@@ -19,6 +20,7 @@ class ForecastFragment : Fragment() {
 
     private lateinit var binding: ForecastFragBinding
     private val vm: ForecastViewModel by viewModels()
+    private val safeArgs: ForecastFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -27,6 +29,7 @@ class ForecastFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewmodel = vm
 
+        requireActivity().title = safeArgs.argCityName
         val adapter = ForecastAdapter()
 
         binding.lvForecast.adapter = adapter

@@ -29,7 +29,7 @@ class WeatherAdapter : ListAdapter<WeatherData, WeatherAdapter.ViewHolder>(Weath
         }
 
         private fun navigateToForecast(weatherData: WeatherData, view: View) {
-            val direction = HomeFragmentDirections.actionShowForecast(weatherData.id)
+            val direction = HomeFragmentDirections.actionShowForecast(weatherData.id, weatherData.name)
             view.findNavController().navigate(direction)
         }
 

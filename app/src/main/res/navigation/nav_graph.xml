@@ -7,7 +7,6 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="me.smr.weatherforecast.fragments.HomeFragment"
-        android:label="@string/app_name"
         tools:layout="@layout/home_fragment" >
         <action
             android:id="@+id/action_show_forecast"
@@ -17,11 +16,15 @@
     <fragment
         android:id="@+id/forcastFragment"
         android:name="me.smr.weatherforecast.fragments.ForecastFragment"
-        android:label="@string/app_name"
         tools:layout="@layout/forecast_frag">
 
         <argument
             android:name="argCityID"
+            app:argType="string"
+            app:nullable="false" />
+
+        <argument
+            android:name="argCityName"
             app:argType="string"
             app:nullable="false" />
 

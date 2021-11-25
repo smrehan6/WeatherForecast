@@ -3,7 +3,6 @@ package me.smr.weatherforecast.viewmodels
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import me.smr.weatherforecast.api.City
 import me.smr.weatherforecast.api.WeatherAPI
 import me.smr.weatherforecast.fragments.ForecastFragment
 import me.smr.weatherforecast.models.Forecast
@@ -27,9 +26,6 @@ class ForecastViewModel @Inject constructor(
         result is Result.Error
     }
 
-    private val _city = MutableLiveData<City?>()
-    val city: LiveData<City?> = _city
-
     init {
         _data.postValue(Result.Loading)
         val cityId: String? = savedStateHandle[ForecastFragment.ARG_CITY_ID]
@@ -37,7 +33,6 @@ class ForecastViewModel @Inject constructor(
             viewModelScope.launch {
                 try {
                     val response = api.fetchForecast(cityId)
-                    _city.postValue(response.city)
                     val list = mutableListOf<Forecast>()
                     response.list.forEach {
                         list.add(Forecast().apply {
