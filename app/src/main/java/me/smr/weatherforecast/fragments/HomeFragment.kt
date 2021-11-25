@@ -3,14 +3,10 @@ package me.smr.weatherforecast.fragments
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import me.smr.weatherforecast.R
 import me.smr.weatherforecast.adapters.SearchClickListener
@@ -43,30 +39,17 @@ class HomeFragment : Fragment() {
             }
         })
 
-        binding.lvSearch.let {
-            val layoutManager = LinearLayoutManager(requireContext())
-            layoutManager.orientation = RecyclerView.VERTICAL
-            it.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
-            it.layoutManager = layoutManager
-            it.adapter = searchAdapter
-        }
+        binding.lvSearch.adapter = searchAdapter
 
         val weatherAdapter = WeatherAdapter()
 
-        binding.lvCities.let {
-            val layoutManager = LinearLayoutManager(requireContext())
-            layoutManager.orientation = RecyclerView.VERTICAL
-            it.layoutManager = layoutManager
-            it.adapter = weatherAdapter
-        }
+        binding.lvCities.adapter = weatherAdapter
 
         viewModel.searchResult.observe(viewLifecycleOwner, {
-            Log.i(TAG, "search: ${it.size}")
             searchAdapter.submitList(it)
         })
 
         viewModel.weatherData.observe(viewLifecycleOwner) {
-            Log.i(TAG, "weather: ${it.size}")
             weatherAdapter.submitList(it)
         }
 
@@ -90,13 +73,11 @@ class HomeFragment : Fragment() {
 
         val listener = object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
-                Log.i(TAG, "onMenuItemActionExpand: ")
                 viewModel.showSearch()
                 return true
             }
 
             override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
-                Log.i(TAG, "onMenuItemActionCollapse: ")
                 viewModel.hideSearch()
                 return true
             }
