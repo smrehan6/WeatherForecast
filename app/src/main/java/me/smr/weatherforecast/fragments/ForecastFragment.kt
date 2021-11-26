@@ -11,7 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import me.smr.weatherforecast.adapters.ForecastAdapter
 import me.smr.weatherforecast.databinding.ForecastFragBinding
-import me.smr.weatherforecast.models.CityData
 import me.smr.weatherforecast.utils.Result
 import me.smr.weatherforecast.viewmodels.ForecastViewModel
 
@@ -57,15 +56,6 @@ class ForecastFragment : Fragment() {
 
 
     companion object {
-
         const val ARG_CITY_ID = "argCityID"
-
-        fun newInstance(data: CityData?): ForecastFragment {
-            val fragment = ForecastFragment()
-            val extras = Bundle()
-            extras.putParcelable(ARG_CITY_ID, data)
-            fragment.arguments = extras
-            return fragment
-        }
     }
 }
