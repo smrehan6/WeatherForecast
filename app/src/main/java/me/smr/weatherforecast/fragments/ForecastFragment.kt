@@ -28,7 +28,9 @@ class ForecastFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewmodel = vm
 
+        // TODO title and back navigation
         requireActivity().title = safeArgs.argCityName
+
         val adapter = ForecastAdapter()
 
         binding.lvForecast.adapter = adapter

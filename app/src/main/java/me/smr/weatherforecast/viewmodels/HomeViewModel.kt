@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
     private val repository: Repository
 ) : ViewModel() {
 
@@ -35,13 +34,15 @@ class HomeViewModel @Inject constructor(
             if (cityIDs.isNotEmpty()) {
                 val weatherDataList = mutableListOf<WeatherData>()
                 Log.i(TAG, "ids: $cityIDs")
+                // TODO error handling
                 val resp = repository.fetchWeatherData(cityIDs.joinToString(","))
+                // TODO can be done better
                 resp.list.forEach {
                     weatherDataList.add(
                         WeatherData(
                             it.id,
                             it.name,
-                            it.main.temp.toString(),// TODO
+                            it.main.temp.toString(),
                             it.dt,
                             it.weather[0].description,
                             it.weather[0].icon
@@ -60,6 +61,7 @@ class HomeViewModel @Inject constructor(
     fun searchCity(query: String) {
         viewModelScope.launch {
             val result = mutableListOf<CitySearchResult>()
+            // TODO error handling
             val searchResponse = repository.searchCity(query)
             searchResponse.list.forEach {
                 // TODO use domain converters
@@ -89,7 +91,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSearchResultClicked(city: CitySearchResult) {
-        Log.i(TAG, "onSearchResultClicked: $city")
         CoroutineScope(Dispatchers.IO).launch {
             repository.saveCity(city.toEntity())
         }
