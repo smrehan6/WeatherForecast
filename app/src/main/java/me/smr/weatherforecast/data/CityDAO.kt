@@ -16,6 +16,6 @@ interface CityDAO {
     fun getAllCities() : Flow<List<CityEntity>>
 
     @Query("select id from cities")
-    suspend fun getAllCityIDs() : List<String>
+    fun getAllCityIDs() : Flow<List<String>>
 
 }

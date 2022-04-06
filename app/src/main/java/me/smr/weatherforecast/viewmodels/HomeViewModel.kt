@@ -5,6 +5,8 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import me.smr.weatherforecast.data.Repository
 import me.smr.weatherforecast.models.CitySearchResult
@@ -28,33 +30,37 @@ class HomeViewModel @Inject constructor(
     private val _weatherData = MutableLiveData<List<WeatherData>>()
     val weatherData: LiveData<List<WeatherData>> = _weatherData
 
+    private val ids: Flow<List<String>> = repository.getCityIDs()
+
     init {
+
         viewModelScope.launch {
-            val cityIDs = repository.getCityIDs()
-            if (cityIDs.isNotEmpty()) {
-                val weatherDataList = mutableListOf<WeatherData>()
-                Log.i(TAG, "ids: $cityIDs")
-                // TODO error handling
-                val resp = repository.fetchWeatherData(cityIDs.joinToString(","))
-                // TODO can be done better
-                resp.list.forEach {
-                    weatherDataList.add(
-                        WeatherData(
-                            it.id,
-                            it.name,
-                            it.main.temp.toString(),
-                            it.dt,
-                            it.weather[0].description,
-                            it.weather[0].icon
+            ids.collect {
+                if (it.isNotEmpty()) {
+                    val weatherDataList = mutableListOf<WeatherData>()
+                    // TODO error handling
+                    val resp = repository.fetchWeatherData(it.joinToString(","))
+                    // TODO can be done better
+                    resp.list.forEach {
+                        weatherDataList.add(
+                            WeatherData(
+                                it.id,
+                                it.name,
+                                it.main.temp.toString(),
+                                it.dt,
+                                it.weather[0].description,
+                                it.weather[0].icon
+                            )
                         )
-                    )
+                    }
+                    _weatherData.postValue(weatherDataList)
+                    _showWeather.postValue(true)
+                } else {
+                    Log.i(TAG, "NO IDs")
+                    _showWeather.postValue(false)
                 }
-                _weatherData.postValue(weatherDataList)
-                _showWeather.postValue(true)
-            } else {
-                Log.i(TAG, "NO IDs")
-                _showWeather.postValue(false)
             }
+
         }
     }
 

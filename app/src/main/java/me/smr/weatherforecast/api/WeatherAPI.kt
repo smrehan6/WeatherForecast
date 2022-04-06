@@ -12,19 +12,10 @@ import retrofit2.http.Query
 interface WeatherAPI {
 
     @GET("find?type=like&APPID=$APP_ID")
-    fun find(@Query("q") name: String): Call<ResponseBody>
-
-    @GET("find?type=like&APPID=$APP_ID")
     suspend fun searchCity(@Query("q") name: String): SearchResponse
 
     @GET("group?units=metric&APPID=$APP_ID")
-    fun getCurrentWeather(@Query("id") id: String): Call<ResponseBody>
-
-    @GET("group?units=metric&APPID=$APP_ID")
     suspend fun getWeatherData(@Query("id") id: String): WeatherResponse
-
-    @GET("forecast/daily?cnt=16&units=metric&APPID=$APP_ID")
-    fun getForecast(@Query("id") id: String): Call<ResponseBody>
 
     @GET("forecast/daily?cnt=16&units=metric&APPID=$APP_ID")
     suspend fun fetchForecast(@Query("id") id: String): ForecastResponse

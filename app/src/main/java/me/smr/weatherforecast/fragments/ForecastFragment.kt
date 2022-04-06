@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -28,8 +29,10 @@ class ForecastFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewmodel = vm
 
-        // TODO title and back navigation
         requireActivity().title = safeArgs.argCityName
+        requireActivity().onBackPressedDispatcher.addCallback {
+            requireActivity().onBackPressed()
+        }
 
         val adapter = ForecastAdapter()
 

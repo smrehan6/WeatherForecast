@@ -1,5 +1,6 @@
 package me.smr.weatherforecast.data
 
+import kotlinx.coroutines.flow.Flow
 import me.smr.weatherforecast.api.WeatherAPI
 import javax.inject.Inject
 
@@ -8,7 +9,7 @@ class Repository @Inject constructor(
     private val api: WeatherAPI,
 ) {
 
-    suspend fun getCityIDs(): List<String> = cityDAO.getAllCityIDs()
+    fun getCityIDs(): Flow<List<String>> = cityDAO.getAllCityIDs()
 
     suspend fun searchCity(query: String) = api.searchCity(query)
 
