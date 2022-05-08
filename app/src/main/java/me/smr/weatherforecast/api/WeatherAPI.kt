@@ -20,9 +20,6 @@ interface WeatherAPI {
     @GET("forecast/daily?cnt=16&units=metric&APPID=$APP_ID")
     suspend fun fetchForecast(@Query("id") id: String): ForecastResponse
 
-    @GET("weather?APPID=$APP_ID")
-    fun getWeatherByLoc(@Query("lat") lat: String, @Query("lon") lon: String): Call<ResponseBody>
-
     companion object {
         private const val APP_ID = "e1ec7985dbbd4af7f73ae7d3bb99453a"
         const val BASE_URL = "https://api.openweathermap.org/data/2.5/"

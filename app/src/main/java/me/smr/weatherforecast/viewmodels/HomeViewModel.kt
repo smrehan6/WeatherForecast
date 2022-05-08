@@ -30,16 +30,19 @@ class HomeViewModel @Inject constructor(
     private val _weatherData = MutableLiveData<List<WeatherData>>()
     val weatherData: LiveData<List<WeatherData>> = _weatherData
 
-    private val ids: Flow<List<String>> = repository.getCityIDs()
+    private val cityIdList: Flow<List<String>> = repository.getCityIDs()
 
     init {
+        showSavedCities()
+    }
 
+    private fun showSavedCities(){
         viewModelScope.launch {
-            ids.collect {
-                if (it.isNotEmpty()) {
+            cityIdList.collect { cityIDs ->
+                if (cityIDs.isNotEmpty()) {
                     val weatherDataList = mutableListOf<WeatherData>()
                     // TODO error handling
-                    val resp = repository.fetchWeatherData(it.joinToString(","))
+                    val resp = repository.fetchWeatherData(cityIDs.joinToString(","))
                     // TODO can be done better
                     resp.list.forEach {
                         weatherDataList.add(
@@ -60,7 +63,6 @@ class HomeViewModel @Inject constructor(
                     _showWeather.postValue(false)
                 }
             }
-
         }
     }
 

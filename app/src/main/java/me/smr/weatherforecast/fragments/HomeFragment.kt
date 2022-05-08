@@ -45,9 +45,9 @@ class HomeFragment : Fragment() {
 
         binding.lvCities.adapter = weatherAdapter
 
-        viewModel.searchResult.observe(viewLifecycleOwner, {
+        viewModel.searchResult.observe(viewLifecycleOwner) {
             searchAdapter.submitList(it)
-        })
+        }
 
         viewModel.weatherData.observe(viewLifecycleOwner) {
             weatherAdapter.submitList(it)
