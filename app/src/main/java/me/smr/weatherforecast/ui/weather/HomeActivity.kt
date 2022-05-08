@@ -1,4 +1,4 @@
-package me.smr.weatherforecast
+package me.smr.weatherforecast.ui.weather
 
 import android.app.SearchManager
 import android.content.Intent
@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
+import me.smr.weatherforecast.R
 import me.smr.weatherforecast.viewmodels.HomeViewModel
 
 @AndroidEntryPoint
