@@ -11,6 +11,6 @@ a simple weather forecast app based on openweathermap.org
 - [x] Use Jetpack navigation
 - [x] Use Room
 - [x] Use HILT
-- [ ] Switch to MVVM
+- [x] Switch to MVVM
 - [ ] Use Jetpack Compose
 - [ ] Update GPS related code
